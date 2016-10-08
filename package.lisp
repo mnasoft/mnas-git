@@ -2,10 +2,8 @@
 
 (defpackage #:mnas-git
   (:use #:cl #:mnas-string #:mnas-list #:mnas-path)
-  (:export make-init-non-git-repos
-	   make-commit-a
-	   make-git-script
-	   *git-dir*
-	   )
-  )
-
+  (:export git-command
+	   git-init
+	   git-commit-a
+	   git-clone--bare
+	   git-remote-readd))

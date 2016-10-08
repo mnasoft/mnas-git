@@ -4,9 +4,9 @@
 
 ;;; "mnas-git" goes here. Hacks and glory await!
 
-(make-init-non-git-repos *clisp-dir*)
+(git-init)
 
-(make-git-script *clisp-dir* "git status")
+(git-command "git status" t)
 
 (make-git-script *clisp-dir* "git pull other master")
 

@@ -22,7 +22,7 @@
 
 (defun cd-path (path &optional (os t))
   (format os "cd ~A~%" (directory-namestring path))
-  (format os "echo ~A~%" (directory-namestring path)))
+  (format os "echo -e \"\\033[1;31m~A\\033[0m\"~%" (directory-namestring path)))
 
 (defun preamble-bash(&optional (os t))
   (format os "#!/bin/bash~%"))
@@ -79,74 +79,102 @@
 "
   (let ((asd-dirs (find-filenames-directory path "\"*.asd\""))
 	(git-dirs  (find-filenames-directory path "\".git\"")))
-    (set-difference asd-dirs git-dirs :test #'pathname-match-p)
-    ))
+    (set-difference asd-dirs git-dirs :test #'pathname-match-p)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun make-init-non-git-repo (path &optional (os t))
-  (cd-path path os)
-  (format os "git init~%"))
-
-(defun make-init-non-git-repos(path &optional (file-name "git-init.sh"))
+(defun git-init( &optional (os nil))
   "Генерирует bash-сценарий, инициализирующий git репозитории;
 Пример использования:
-;;;;(make-init-non-git-repos \"/_storage/otd11/namatv/git/clisp/\" \"git-init.sh\")
-;;;;(make-init-non-git-repos \"/home/namatv/develop/git/clisp/\" \"git-init.sh\")
+;;;;(git-init)
+;;;;(git-init t)
 "
-  (with-open-file (os (concatenate 'string path file-name) :direction :output :if-does-not-exist :create :if-exists :supersede) 
-    (preamble-bash os)
-    (mapcar #'(lambda (el) (make-init-non-git-repo el os))
-	    (find-not-giting-lisp-projects path))))
+  (flet ((make-init-non-git-repo (path &optional (os t))
+	   (cd-path path os)
+	   (format os "git init~%"))
+	 (func (os)
+	   (mapcar #'(lambda (el) (make-init-non-git-repo el os))
+		   (find-not-giting-lisp-projects *clisp-dir*))))
+    (let ((f-name (concatenate 'string *clisp-dir* "git-init.sh")))
+      (if (null os)
+	  (progn (func t) t)
+	  (progn 
+	    (with-open-file (os (concatenate 'string path file-name) :direction :output :if-does-not-exist :create :if-exists :supersede)
+	      (func os))
+	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun commit-a (path &optional (os t))
-  (cd-path path os)
-  (format os "git commit -a -m \"~A ~A\"~%" (decoded-time-out) (machine-instance)))
-
-(defun make-commit-a (path &optional (file-name "git-commit-a.sh"))
-"Генерирует сценарй c именем file-name, располагая его в каталоге file-name,
-который выполняет commit для каждого каталога
-"
-  (let ((git-dirs (find-filenames-directory path "\".git\"")))
-    (with-open-file (os (concatenate 'string path file-name) :direction :output :if-does-not-exist :create :if-exists :supersede)
-      (preamble-bash os)
-      (mapcar #'(lambda (el) (commit-a el os)) git-dirs))))
+(defun git-commit-a (&optional (os nil))
+  "Для каждого репозитория, расположенного в каталоге *clisp-dir* 
+текущей машины *m-i*, генерирует сценарий, выполняющий команду git commit -a;
+В качестве комментария используется строка предтвляющая,
+значение текущей даты и времени;
+   Пример использования:
+;;;;(git-commit-a)
+;;;;(git-commit-a t)"
+  (flet ((commit-a (path &optional (os t))
+	   (cd-path path os)
+	   (format os "git commit -a -m \"~A ~A\"~%" (decoded-time-out) *m-i*))
+	 (func (os)
+	   (mapcar #'(lambda (el) (commit-a el os)) (find-filenames-directory-clisp-git)))
+	 )
+    (let ((f-name (concatenate 'string *clisp-dir* "git-commit-a.sh")))
+      (if (null os)
+	  (progn (func t) t)
+	  (progn
+	    (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
+	      (func os))
+	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun git-script(path script &optional (os t))
-  (cd-path path os)
-  (format os "~A~%" script))
-
-(defun make-git-script (path git-command)
-  "Генерирует сценарий, выполняющий для всех подкаталогов каталога path, 
-в которых имеется каталог .git, команду, задаваемую параметром git-command;
+(defun git-command (git-command &optional (os nil))
+    "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
+машины *m-i*, генерирует сценарий, выполняющий команду git-command;
+   Если опциональный параметр os имеет значение nil,
+вывод функции направляется на стандартный вывод при этом функция возврвщает t,
+иначе -- вывод направляется в командный файл и затем этот выполняется при этом 
+функция возврвшает путь к командному файлу и результат выполнения командного файла;
 Пример использования:
-;;;;(make-git-script \"/_storage/otd11/namatv/git/clisp/\" \"git remote remove other\")
-;;;;(make-git-script \"/home/namatv/develop/git/clisp/\"   \"git remote remove other\")
+;;;;(git-command  \"git remote remove other\")
+;;;;(git-command  \"git remote remove other\" t)
 "
-  (let ((git-dirs (find-filenames-directory path "\".git\""))
-	(file-name (concatenate 'string (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
-    (with-open-file (os (concatenate 'string path file-name) :direction :output :if-does-not-exist :create :if-exists :supersede)
-      (preamble-bash os)
-      (mapcar #'(lambda (el) (git-script el git-command os))
-	      git-dirs))))
+  (flet (
+	 (func (os)
+	   (mapcar #'(lambda (el) (git-script el git-command os))
+		   (find-filenames-directory-clisp-git)))
+	 (git-script(path script &optional (os t))
+	   (cd-path path os)
+	   (format os "~A~%" script)))
+    (let ((f-name (concatenate 'string *clisp-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
+      (if (null os)
+	  (progn (func t) t)
+	  (progn
+	    (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
+	      (func os))
+	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t))
+	    )))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun make-git-clone--bare (&optional (os nil))
-  "Для каждого репозитория, расположенного в каталоге *clisp-dir*, создает список команд,
-который выполняет клонирование чистого репозитория 
-в каталог (concatenate 'string *git-dir* \"git-\" *m-i*);
+(defun git-clone--bare (&optional (os nil))
+  "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
+машины *m-i*, создает список команд, который выполняет клонирование чистого 
+репозитория в каталог (concatenate 'string *git-dir* \"git-\" *m-i*); 
+После создания таким образом каталога с чистыми репозиториями его можно
+перенести на другую машину для выполнения слияния;
    Если опциональный параметр os имеет значение nil,
 вывод функции направляется на стандартный вывод при этом функция возврвщает t,
 иначе -- вывод направляется в командный файл и затем этот выполняется при этом 
 функция возврвшает путь к командному файлу и результат выполнения командного файла;
   Пример использования:
-;;;;(make-git-clone--bare)
-;;;;(make-git-clone--bare t)
+;;;;(git-clone--bare)
+;;;;(git-clone--bare t)
+  Рекоемндации:
+  Перед выполнением даной функции следует удалить соответствующий 
+каталог:  (concatenate 'string *git-dir* \"git-\" *m-i*),
+содержащий чистые репозитории
 "
   (flet ((func (os) 
 	   (mapcar 
@@ -160,11 +188,11 @@
 	  (progn (func t) t)
 	  (progn (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
 		   (func os))
-		 (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name))))))))
+		 (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun make-git-remote-re-add (&optional (os nil))
+(defun git-remote-readd (&optional (os nil))
   "Для каждого репозитория расположенного в каталоге *clisp-dir* создает список команд, который выполняет:
 - отсоединение от внешних репозиториев (список *machine-list*), которые для данной машины *m-i* вожможно
   имеют неправильное расположение;
@@ -175,8 +203,8 @@
 иначе -- вывод направляется в командный файл и затем этот выполняется при этом 
 функция возврвшает путь к командному файлу и результат выполнения командного файла;
    Пример использования:
-;;;;(make-git-remote-re-add)
-;;;;(make-git-remote-re-add t)
+;;;;(git-remote-readd)
+;;;;(git-remote-readd t)
    Рекомендации:
    Следует выполнять данную функцию ...
 "
@@ -196,4 +224,4 @@
 	  (progn (func t) t)
 	  (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
 	    (func os)
-	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name))))))))
+	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
