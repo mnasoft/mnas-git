@@ -89,17 +89,17 @@
 ;;;;(git-init)
 ;;;;(git-init t)
 "
-  (flet ((make-init-non-git-repo (path &optional (os t))
-	   (cd-path path os)
-	   (format os "git init~%"))
-	 (func (os)
-	   (mapcar #'(lambda (el) (make-init-non-git-repo el os))
-		   (find-not-giting-lisp-projects *clisp-dir*))))
+  (labels ((make-init-non-git-repo (path &optional (os t))
+	     (cd-path path os)
+	     (format os "git init~%"))
+	   (func (os)
+	     (mapcar #'(lambda (el) (make-init-non-git-repo el os))
+		     (find-not-giting-lisp-projects *clisp-dir*))))
     (let ((f-name (concatenate 'string *clisp-dir* "git-init.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn 
-	    (with-open-file (os (concatenate 'string path file-name) :direction :output :if-does-not-exist :create :if-exists :supersede)
+	    (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
 	      (func os))
 	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
@@ -113,7 +113,7 @@
    Пример использования:
 ;;;;(git-commit-a)
 ;;;;(git-commit-a t)"
-  (flet ((commit-a (path &optional (os t))
+  (labels ((commit-a (path &optional (os t))
 	   (cd-path path os)
 	   (format os "git commit -a -m \"~A ~A\"~%" (decoded-time-out) *m-i*))
 	 (func (os)
@@ -130,7 +130,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun git-command (git-command &optional (os nil))
-    "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
+  "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
 машины *m-i*, генерирует сценарий, выполняющий команду git-command;
    Если опциональный параметр os имеет значение nil,
 вывод функции направляется на стандартный вывод при этом функция возврвщает t,
@@ -140,13 +140,13 @@
 ;;;;(git-command  \"git remote remove other\")
 ;;;;(git-command  \"git remote remove other\" t)
 "
-  (flet (
-	 (func (os)
-	   (mapcar #'(lambda (el) (git-script el git-command os))
-		   (find-filenames-directory-clisp-git)))
+  (labels (
 	 (git-script(path script &optional (os t))
 	   (cd-path path os)
-	   (format os "~A~%" script)))
+	   (format os "~A~%" script))
+	 (func (os)
+	   (mapcar #'(lambda (el) (git-script el git-command os))
+		   (find-filenames-directory-clisp-git))))
     (let ((f-name (concatenate 'string *clisp-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
       (if (null os)
 	  (progn (func t) t)
