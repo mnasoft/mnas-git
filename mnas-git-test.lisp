@@ -8,6 +8,10 @@
 
 (git-command "git status" t)
 
+(git-commit-a t)
+
+(git-command (concatenate 'string "git push" " "  *m-i* " " "master"))
+
 (make-git-script *clisp-dir* "git pull other master")
 
 (make-git-script *clisp-dir* "git remote remove hp1.zorya.com")
