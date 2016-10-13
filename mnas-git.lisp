@@ -7,7 +7,8 @@
 (defparameter *mahine-git_dir-clisp_dir*
   '(("mnasoft-pi"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/")
     ("mnasoft-00"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/")
-    ("hp1.zorya.com" "/_storage/otd11/namatv/develop/" "/_storage/otd11/namatv/develop/git/clisp/")
+    ("MNASOFT-01"    "e:/home/namatv/develop/"           "e:/home/namatv/develop/git/clisp/")
+    ("hp1.zorya.com" "e:/_storage/otd11/namatv/develop/" "e:/_storage/otd11/namatv/develop/git/clisp/")
     ("KO11-118383"   "/d/home/_namatv/develop/"        "/d/home/_namatv/develop/git/clisp/")))
 
 (defparameter *m-i* (machine-instance))
