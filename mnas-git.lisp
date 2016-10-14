@@ -5,11 +5,11 @@
 ;;; "mnas-git" goes here. Hacks and glory await!
 
 (defparameter *mahine-git_dir-clisp_dir*
-  '(("mnasoft-pi"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/")
-    ("mnasoft-00"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/")
-    ("MNASOFT-01"    "e:/home/namatv/develop/"           "e:/home/namatv/develop/git/clisp/")
-    ("hp1.zorya.com" "e:/_storage/otd11/namatv/develop/" "e:/_storage/otd11/namatv/develop/git/clisp/")
-    ("KO11-118383"   "/d/home/_namatv/develop/"        "/d/home/_namatv/develop/git/clisp/")))
+  '(("mnasoft-pi"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"  "/home/namatv/develop/git/clisp/")
+    ("mnasoft-00"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"  "/home/namatv/develop/git/clisp/")
+    ("MNASOFT-01"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"  "e:/PRG/msys64/home/namatv/develop/git/clisp/")
+    ("hp1.zorya.com" "/_storage/otd11/namatv/develop/" "/_storage/otd11/namatv/develop/git/clisp/" "/_storage/otd11/namatv/develop/git/clisp/")
+    ("KO11-118383"   "/d/home/_namatv/develop/"        "/d/home/_namatv/develop/git/clisp/" "/d/home/_namatv/develop/git/clisp/")))
 
 (defparameter *m-i* (machine-instance))
 
@@ -18,6 +18,8 @@
 (defparameter *git-dir* (second (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
 
 (defparameter *clisp-dir* (third (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
+
+(defparameter *sh-dir* (fourth (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -96,7 +98,7 @@
 	   (func (os)
 	     (mapcar #'(lambda (el) (make-init-non-git-repo el os))
 		     (find-not-giting-lisp-projects *clisp-dir*))))
-    (let ((f-name (concatenate 'string *clisp-dir* "git-init.sh")))
+    (let ((f-name (concatenate 'string *sh-dir* "git-init.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn 
@@ -120,7 +122,7 @@
 	 (func (os)
 	   (mapcar #'(lambda (el) (commit-a el os)) (find-filenames-directory-clisp-git)))
 	 )
-    (let ((f-name (concatenate 'string *clisp-dir* "git-commit-a.sh")))
+    (let ((f-name (concatenate 'string *sh-dir* "git-commit-a.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn
@@ -148,7 +150,7 @@
 	 (func (os)
 	   (mapcar #'(lambda (el) (git-script el git-command os))
 		   (find-filenames-directory-clisp-git))))
-    (let ((f-name (concatenate 'string *clisp-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
+    (let ((f-name (concatenate 'string *sh-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn
@@ -184,7 +186,7 @@
 		(format os  "git clone --bare . ~Agit-~A/~A.git ~%" 
 			*git-dir* *m-i* (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 	    (find-filenames-directory-clisp-git))))
-    (let ((f-name (concatenate 'string *clisp-dir* "git-clone--bare.sh")))
+    (let ((f-name (concatenate 'string *sh-dir* "git-clone--bare.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
@@ -220,9 +222,13 @@
 			     mi *git-dir* mi (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 		 (find-filenames-directory-clisp-git)))
 	    *machine-list*)))
-    (let ((f-name (concatenate 'string *clisp-dir* "git-remote-re-add.sh")))
+    (let ((f-name (concatenate 'string *sh-dir* "git-remote-re-add.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
 	    (func os)
-	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
+	    (values f-name
+		    (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)
+		    ))))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
