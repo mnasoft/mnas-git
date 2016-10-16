@@ -6,4 +6,5 @@
 	   git-init
 	   git-commit-a
 	   git-clone--bare
+	   git-clone--origin
 	   git-remote-readd))

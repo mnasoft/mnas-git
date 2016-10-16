@@ -231,4 +231,32 @@
 		    (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)
 		    ))))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun git-clone--origin (origin)
+  "Генерирует сценарий, который выполяет клонирование чистых из репозиториев 
+для которых в каталоге с проектами не нашлось соответствующего проекта,
+во виз расположения origin 
+;;;;(git-clone--origin \"mnasoft-00\")
+"
+  (let ((b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "../../" "git-" origin )))
+	(g-r  (find-filenames-directory-clisp-git))
+	(tmp-dir "_temp")
+	)
+    (cd-path *clisp-dir* t)
+    (format t "mkdir ~A~%" tmp-dir)
+    (format t "cd ~A~%" tmp-dir)
+    (mapcar
+     #'(lambda (el)
+	 (format t "git clone --origin ~A ~Agit-~A/~A.git~%" origin *git-dir* origin (pathname-name (cl-fad:pathname-as-file el)))
+	 )
+     (set-difference
+      b-r g-r :test #'(lambda (br gr)
+			(string=
+			 (pathname-name (cl-fad:pathname-as-file br))
+			 (pathname-name (cl-fad:pathname-as-file gr))))))))
+
+;;;;(git-clone--origin "mnasoft-00")
+
+
+
