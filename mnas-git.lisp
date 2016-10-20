@@ -68,8 +68,10 @@
 	  (uiop:directorize-pathname-host-device el))))
     (find-filenames path name)) :test #'equal))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun find-filenames-directory-clisp-git()
-  (find-filenames-directory *clisp-dir* ".git"))
+  (mnas-path:find-directory-parent *sh-dir* ".git"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -80,8 +82,8 @@
 Пример использования:
 ;;;;(find-not-giting-lisp-projects *clisp-dir*)
 "
-  (let ((asd-dirs (find-filenames-directory path "\"*.asd\""))
-	(git-dirs  (find-filenames-directory path "\".git\"")))
+  (let ((asd-dirs (mnas-path:find-filename-directory path "asd"))
+	(git-dirs  (mnas-path:find-directory-parent path ".git")))
     (set-difference asd-dirs git-dirs :test #'pathname-match-p)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -97,7 +99,7 @@
 	     (format os "git init~%"))
 	   (func (os)
 	     (mapcar #'(lambda (el) (make-init-non-git-repo el os))
-		     (find-not-giting-lisp-projects *clisp-dir*))))
+		     (find-not-giting-lisp-projects *sh-dir*))))
     (let ((f-name (concatenate 'string *sh-dir* "git-init.sh")))
       (if (null os)
 	  (progn (func t) t)
@@ -267,5 +269,8 @@
 ;;;; (mnas-path:find-filename-directory "~/develop/git/clisp/" "asd")
 
 ;;;; (mnas-path:walk-directory-by-name *sh-dir* ".git")
+
+;; (length (mnas-path:find-directory-parent *sh-dir* ".git"))
+;; (length (find-filenames-directory-clisp-git))
 
 ;;;; d:/PRG/msys32/home/namatv
