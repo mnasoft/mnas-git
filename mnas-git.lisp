@@ -5,11 +5,11 @@
 ;;; "mnas-git" goes here. Hacks and glory await!
 
 (defparameter *mahine-git_dir-clisp_dir*
-  '(("mnasoft-pi"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"  "/home/namatv/develop/git/clisp/")
-    ("mnasoft-00"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"  "/home/namatv/develop/git/clisp/")
-    ("MNASOFT-01"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"  "e:/PRG/msys64/home/namatv/develop/git/clisp/")
+  '(("mnasoft-pi"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"           "/home/namatv/develop/git/clisp/")
+    ("mnasoft-00"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"           "/home/namatv/develop/git/clisp/")
+    ("MNASOFT-01"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"           "e:/PRG/msys64/home/namatv/develop/git/clisp/")
     ("hp1.zorya.com" "/_storage/otd11/namatv/develop/" "/_storage/otd11/namatv/develop/git/clisp/" "/_storage/otd11/namatv/develop/git/clisp/")
-    ("KO11-118383"   "/d/home/_namatv/develop/"        "/d/home/_namatv/develop/git/clisp/" "/d/home/_namatv/develop/git/clisp/")))
+    ("KO11-118383"   "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"           "D:/PRG/msys32/home/namatv/develop/git/clisp/")))
 
 (defparameter *m-i* (machine-instance))
 
@@ -260,3 +260,12 @@
 
 
 
+;;;;(mnas-git:git-remote-readd)
+
+;;;;(mnas-path:find-filename "~/develop/git/clisp/" "asd")
+
+;;;; (mnas-path:find-filename-directory "~/develop/git/clisp/" "asd")
+
+;;;; (mnas-path:walk-directory-by-name *sh-dir* ".git")
+
+;;;; d:/PRG/msys32/home/namatv
