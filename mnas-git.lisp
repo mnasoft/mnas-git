@@ -236,11 +236,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun git-clone--origin (origin)
+(defun clone--origin (origin)
   "Генерирует сценарий, который выполяет клонирование чистых из репозиториев 
 для которых в каталоге с проектами не нашлось соответствующего проекта,
 во виз расположения origin 
-;;;;(git-clone--origin \"mnasoft-00\")
+;;;;(clone--origin \"mnasoft-00\")
 "
   (let ((b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "../../" "git-" origin )))
 	(g-r  (find-filenames-directory-clisp-git))
@@ -259,21 +259,6 @@
 			 (pathname-name (cl-fad:pathname-as-file br))
 			 (pathname-name (cl-fad:pathname-as-file gr))))))))
 
-;;;;(clone--origin "mnasoft-00")
-
-
-;;;;(mnas-git:remote-readd)
-
-;;;;(mnas-path:find-filename "~/develop/git/clisp/" "asd")
-
-;;;; (mnas-path:find-filename-directory "~/develop/git/clisp/" "asd")
-
-;;;; (mnas-path:walk-directory-by-name *sh-dir* ".git")
-
-;; (length (mnas-path:find-directory-parent *sh-dir* ".git"))
-;; (length (find-filenames-directory-clisp-git))
-
-;;;; d:/PRG/msys32/home/namatv
 
 
 
