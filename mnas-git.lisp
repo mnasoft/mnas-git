@@ -271,7 +271,7 @@
   (format t "- asd проектов для команд git: ~A~%" *clisp-dir*)
   (format t "- asd проектов для команд sh : ~A~%" *sh-dir*)
   (write-line 
-  "    Примеры использования:
+   "    Примеры использования функций:
 ;;;;(mnas-git:init)
 ;;;;
 ;;;;(mnas-git:remote-readd)
@@ -284,6 +284,10 @@
 ;;;;(mnas-git:command \"pull MNASOFT-01 master\")
 ;;;;(mnas-git:command \"push MNASOFT-01 master\")
 ;;;;(mnas-git:help)")
+  (write-line "    Пример использования команд сжатия:")
+  (format t "cd ~A~%" *git-dir*)
+  (format t "tar -cvjf git-~A.tar.xz ~Agit-~A/~%" *m-i* *git-dir* *m-i*)
+  (format t "rm -rf ~Agit-~A/~%" *git-dir* *m-i*)
   (values))
 
 (help)
