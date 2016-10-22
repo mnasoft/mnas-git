@@ -23,7 +23,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun cd-path (path &optional (os t)) (format os "~%cd ~A~%pwd~%" path))
+(defun cd-path (path &optional (os t))
+  (if (eq os t)
+      (format os "~%cd ~A~%" path)
+      (format os "cd ~A~%echo~%pwd~%" path)))
 
 (defun preamble-bash(&optional (os t))
   (format os "#!/bin/bash~%"))
@@ -132,7 +135,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun command (git-command &optional (os nil))
+(defun command (command &optional (os nil))
   "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
 машины *m-i*, генерирует сценарий, выполняющий команду git-command;
    Если опциональный параметр os имеет значение nil,
@@ -143,21 +146,21 @@
 ;;;;(command  \"git remote remove other\")
 ;;;;(command  \"git remote remove other\" t)
 "
-  (labels (
-	   (git-script(path script &optional (os t))
-	     (cd-path path os)
-	     (format os "~A~%" script))
-	   (func (os)
-	     (mapcar #'(lambda (el) (git-script el git-command os))
-		     (find-filenames-directory-clisp-git))))
-    (let ((f-name (concatenate 'string *sh-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
-      (if (null os)
-	  (progn (func t) t)
-	  (progn
-	    (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
-	      (func os))
-	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t))
-	    )))))
+  (let ((git-command (concatenate 'string "git" " " command)))
+    (labels (
+	     (git-script(path script &optional (os t))
+	       (cd-path path os)
+	       (format os "~A~%" script))
+	     (func (os)
+	       (mapcar #'(lambda (el) (git-script el git-command os))
+		       (find-filenames-directory-clisp-git))))
+      (let ((f-name (concatenate 'string *sh-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
+	(if (null os)
+	    (progn (func t) t)
+	    (progn
+	      (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
+		(func os))
+	      (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
