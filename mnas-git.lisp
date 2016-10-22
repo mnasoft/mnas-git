@@ -23,9 +23,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun cd-path (path &optional (os t))
-  (format os "cd ~A~%" (directory-namestring path))
-  (format os "echo -e \"\\033[1;31m~A\\033[0m\"~%" (directory-namestring path)))
+(defun cd-path (path &optional (os t)) (format os "~%cd ~A~%" path))
 
 (defun preamble-bash(&optional (os t))
   (format os "#!/bin/bash~%"))
@@ -88,11 +86,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun git-init( &optional (os nil))
+(defun init( &optional (os nil))
   "Генерирует bash-сценарий, инициализирующий git репозитории;
 Пример использования:
-;;;;(git-init)
-;;;;(git-init t)
+;;;;(init)
+;;;;(init t)
 "
   (labels ((make-init-non-git-repo (path &optional (os t))
 	     (cd-path path os)
@@ -100,7 +98,7 @@
 	   (func (os)
 	     (mapcar #'(lambda (el) (make-init-non-git-repo el os))
 		     (find-not-giting-lisp-projects *sh-dir*))))
-    (let ((f-name (concatenate 'string *sh-dir* "git-init.sh")))
+    (let ((f-name (concatenate 'string *sh-dir* "init.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn 
@@ -110,21 +108,21 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun git-commit-a (&optional (os nil))
+(defun commit-a (&optional (os nil))
   "Для каждого репозитория, расположенного в каталоге *clisp-dir* 
 текущей машины *m-i*, генерирует сценарий, выполняющий команду git commit -a;
 В качестве комментария используется строка предтвляющая,
 значение текущей даты и времени;
    Пример использования:
-;;;;(git-commit-a)
-;;;;(git-commit-a t)"
+;;;;(commit-a)
+;;;;(commit-a t)"
   (labels ((commit-a (path &optional (os t))
 	   (cd-path path os)
 	   (format os "git commit -a -m \"~A ~A\"~%" (decoded-time-out) *m-i*))
 	 (func (os)
 	   (mapcar #'(lambda (el) (commit-a el os)) (find-filenames-directory-clisp-git)))
 	 )
-    (let ((f-name (concatenate 'string *sh-dir* "git-commit-a.sh")))
+    (let ((f-name (concatenate 'string *sh-dir* "commit-a.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn
@@ -134,7 +132,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun git-command (git-command &optional (os nil))
+(defun command (git-command &optional (os nil))
   "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
 машины *m-i*, генерирует сценарий, выполняющий команду git-command;
    Если опциональный параметр os имеет значение nil,
@@ -142,16 +140,16 @@
 иначе -- вывод направляется в командный файл и затем этот выполняется при этом 
 функция возврвшает путь к командному файлу и результат выполнения командного файла;
 Пример использования:
-;;;;(git-command  \"git remote remove other\")
-;;;;(git-command  \"git remote remove other\" t)
+;;;;(command  \"git remote remove other\")
+;;;;(command  \"git remote remove other\" t)
 "
   (labels (
-	 (git-script(path script &optional (os t))
-	   (cd-path path os)
-	   (format os "~A~%" script))
-	 (func (os)
-	   (mapcar #'(lambda (el) (git-script el git-command os))
-		   (find-filenames-directory-clisp-git))))
+	   (git-script(path script &optional (os t))
+	     (cd-path path os)
+	     (format os "~A~%" script))
+	   (func (os)
+	     (mapcar #'(lambda (el) (git-script el git-command os))
+		     (find-filenames-directory-clisp-git))))
     (let ((f-name (concatenate 'string *sh-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
       (if (null os)
 	  (progn (func t) t)
@@ -163,7 +161,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun git-clone--bare (&optional (os nil))
+(defun clone--bare (&optional (os nil))
   "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
 машины *m-i*, создает список команд, который выполняет клонирование чистого 
 репозитория в каталог (concatenate 'string *git-dir* \"git-\" *m-i*); 
@@ -174,8 +172,8 @@
 иначе -- вывод направляется в командный файл и затем этот выполняется при этом 
 функция возврвшает путь к командному файлу и результат выполнения командного файла;
   Пример использования:
-;;;;(git-clone--bare)
-;;;;(git-clone--bare t)
+;;;;(clone--bare)
+;;;;(clone--bare t)
   Рекоемндации:
   Перед выполнением даной функции следует удалить соответствующий 
 каталог:  (concatenate 'string *git-dir* \"git-\" *m-i*),
@@ -188,7 +186,7 @@
 		(format os  "git clone --bare . ~Agit-~A/~A.git ~%" 
 			*git-dir* *m-i* (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 	    (find-filenames-directory-clisp-git))))
-    (let ((f-name (concatenate 'string *sh-dir* "git-clone--bare.sh")))
+    (let ((f-name (concatenate 'string *sh-dir* "clone--bare.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
@@ -197,7 +195,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun git-remote-readd (&optional (os nil))
+(defun remote-readd (&optional (os nil))
   "Для каждого репозитория расположенного в каталоге *clisp-dir* создает список команд, который выполняет:
 - отсоединение от внешних репозиториев (список *machine-list*), которые для данной машины *m-i* вожможно
   имеют неправильное расположение;
@@ -208,8 +206,8 @@
 иначе -- вывод направляется в командный файл и затем этот выполняется при этом 
 функция возврвшает путь к командному файлу и результат выполнения командного файла;
    Пример использования:
-;;;;(git-remote-readd)
-;;;;(git-remote-readd t)
+;;;;(remote-readd)
+;;;;(remote-readd t)
    Рекомендации:
    Следует выполнять данную функцию ...
 "
@@ -258,11 +256,10 @@
 			 (pathname-name (cl-fad:pathname-as-file br))
 			 (pathname-name (cl-fad:pathname-as-file gr))))))))
 
-;;;;(git-clone--origin "mnasoft-00")
+;;;;(clone--origin "mnasoft-00")
 
 
-
-;;;;(mnas-git:git-remote-readd)
+;;;;(mnas-git:remote-readd)
 
 ;;;;(mnas-path:find-filename "~/develop/git/clisp/" "asd")
 
@@ -274,3 +271,8 @@
 ;; (length (find-filenames-directory-clisp-git))
 
 ;;;; d:/PRG/msys32/home/namatv
+
+
+
+
+
