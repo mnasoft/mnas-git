@@ -272,11 +272,14 @@
   (write-line 
   "    Примеры использования:
 ;;;;(mnas-git:init)
-;;;;(mnas-git:commit-a)
-;;;;(mnas-git:clone--bare)
-;;;;(mnas-git:clone--origin)
+;;;;
 ;;;;(mnas-git:remote-readd)
 ;;;;(mnas-git:clone--origin \"MNASOFT-01\")
+;;;;
+;;;;(mnas-git:command \"add *.lisp *.asd\")
+;;;;(mnas-git:commit-a)
+;;;;(mnas-git:clone--bare)
+;;;;
 ;;;;(mnas-git:command \"pull MNASOFT-01 master\")
 ;;;;(mnas-git:command \"push MNASOFT-01 master\")
 ;;;;(mnas-git:help)")
