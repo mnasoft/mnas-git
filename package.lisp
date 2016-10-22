@@ -7,4 +7,5 @@
 	   commit-a
 	   clone--bare
 	   clone--origin
-	   remote-readd))
+	   remote-readd)
+    (:export help))

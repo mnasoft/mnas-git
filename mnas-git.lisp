@@ -2,27 +2,6 @@
 
 (in-package #:mnas-git)
 
-;;; "mnas-git" goes here. Hacks and glory await!
-
-(defparameter *mahine-git_dir-clisp_dir*
-  '(("mnasoft-pi"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"           "/home/namatv/develop/git/clisp/")
-    ("mnasoft-00"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"           "/home/namatv/develop/git/clisp/")
-    ("MNASOFT-01"    "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"           "e:/PRG/msys64/home/namatv/develop/git/clisp/")
-    ("hp1.zorya.com" "/_storage/otd11/namatv/develop/" "/_storage/otd11/namatv/develop/git/clisp/" "/_storage/otd11/namatv/develop/git/clisp/")
-    ("KO11-118383"   "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"           "D:/PRG/msys32/home/namatv/develop/git/clisp/")))
-
-(defparameter *m-i* (machine-instance))
-
-(defparameter *machine-list* (mapcar #'first *mahine-git_dir-clisp_dir*))
-
-(defparameter *git-dir* (second (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
-
-(defparameter *clisp-dir* (third (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
-
-(defparameter *sh-dir* (fourth (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defun cd-path (path &optional (os t))
   (if (eq os t)
       (format os "~%cd ~A~%" path)
@@ -200,9 +179,9 @@
 
 (defun remote-readd (&optional (os nil))
   "Для каждого репозитория расположенного в каталоге *clisp-dir* создает список команд, который выполняет:
-- отсоединение от внешних репозиториев (список *machine-list*), которые для данной машины *m-i* вожможно
+- отсоединение от внешних репозиториев (список *m-l*), которые для данной машины *m-i* вожможно
   имеют неправильное расположение;
-- присоединение к внешним репозиториям (список *machine-list*), которые для данной машины *m-i* должны
+- присоединение к внешним репозиториям (список *m-l*), которые для данной машины *m-i* должны
   иметь правильное расположение;
    Если опциональный параметр os имеет значение nil,
 вывод функции направляется на стандартный вывод при этом функция возврвщает t,
@@ -224,7 +203,7 @@
 		     (format os  "git remote add ~A ~Agit-~A/~A.git~%" 
 			     mi *git-dir* mi (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 		 (find-filenames-directory-clisp-git)))
-	    *machine-list*)))
+	    *m-l*)))
     (let ((f-name (concatenate 'string *sh-dir* "git-remote-re-add.sh")))
       (if (null os)
 	  (progn (func t) t)
@@ -260,7 +239,45 @@
 			 (pathname-name (cl-fad:pathname-as-file gr))))))))
 
 
-
-
-
-
+(defun help ()
+  (write-line
+   "  MNAS-GIT - проект предназначен несетевого способа согласования репозиториев git;
+  Функции формирования сценариев и выполнения команд управления репозиториями git 
+перечислены в таблице 1;
+Таблица 1 - Перечень функций
+|---------------+---------------------+----------------------------------------------------------|
+| Функция       | Параметры           | Описание                                                 |
+|---------------+---------------------+----------------------------------------------------------|
+| init          | &opt os             | Инициализация репозиториев содержащих проекты лиспа asd; |
+|---------------+---------------------+----------------------------------------------------------|
+| commit-a      | &opt os             | Коммит изменений;                                        |
+|---------------+---------------------+----------------------------------------------------------|
+| clone--bare   | &opt os             | Создание каталога с чистыми репозиториями;               |
+|---------------+---------------------+----------------------------------------------------------|
+| clone--origin | str-origin &opt os  | Клонирование из репозитория остутствующих проект         |
+|               |                     |                                                          |
+|---------------+---------------------+----------------------------------------------------------|
+| remote-readd  | &optional os        | Удаление и последующее добавление удаленных репозиториев |
+|---------------+---------------------+----------------------------------------------------------|
+| command       | str-command &opt os | Выполнение произвольной команды;                         |
+|---------------+---------------------+----------------------------------------------------------|
+| help          |                     | Вывод настоящей справки                                  |
+|---------------+---------------------+----------------------------------------------------------|
+")
+  (format t "Имя этой машины: ~A~%" *m-i*)
+  (format t "Удаленные репозитории: ~S~%" *m-l*)
+  (format t "Расположение удаленных репозиториев: ~A~%" *git-dir*)
+  (format t "Расположение asd проектов для команд git: ~A~%" *clisp-dir*)
+  (format t "Расположение asd проектов для команд sh: ~A~%"  *sh-dir*)
+  (write-line 
+  "    Примеры использования:
+;;;;(mnas-git:init)
+;;;;(mnas-git:commit-a)
+;;;;(mnas-git:clone--bare)
+;;;;(mnas-git:clone--origin)
+;;;;(mnas-git:remote-readd)
+;;;;(mnas-git:clone--origin \"MNASOFT-01\")
+;;;;(mnas-git:command \"pull MNASOFT-01 master\")
+;;;;(mnas-git:command \"push MNASOFT-01 master\")
+;;;;(mnas-git:help)")
+  (values))

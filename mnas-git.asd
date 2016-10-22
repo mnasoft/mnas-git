@@ -7,5 +7,6 @@
   :serial t
   :depends-on (#:cl-fad #:mnas-string #:mnas-list #:mnas-path) ;; 
   :components ((:file "package")
+	       (:file "mnas-git-vars")
                (:file "mnas-git")))
 
