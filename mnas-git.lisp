@@ -23,7 +23,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun cd-path (path &optional (os t)) (format os "~%cd ~A~%" path))
+(defun cd-path (path &optional (os t)) (format os "~%cd ~A~%pwd~%" path))
 
 (defun preamble-bash(&optional (os t))
   (format os "#!/bin/bash~%"))
