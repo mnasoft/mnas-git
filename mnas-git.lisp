@@ -286,7 +286,7 @@
 ;;;;(mnas-git:help)")
   (write-line "    Пример использования команд сжатия:")
   (format t "cd ~A~%" *git-dir*)
-  (format t "tar -cvjf git-~A.tar.xz ~Agit-~A/~%" *m-i* *git-dir* *m-i*)
+  (format t "tar -cvJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
   (format t "rm -rf ~Agit-~A/~%" *git-dir* *m-i*)
   (values))
 
