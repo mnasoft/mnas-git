@@ -80,8 +80,12 @@
 	     (format os "git init~%"))
 	   (func (os)
 	     (mapcar #'(lambda (el) (make-init-non-git-repo el os))
-		     (find-not-giting-lisp-projects *sh-dir*))))
-    (let ((f-name (concatenate 'string *sh-dir* "init.sh")))
+;;;;		     (find-not-giting-lisp-projects *sh-dir*)
+		     (find-not-giting-lisp-projects *clisp-dir*))))
+    (let (
+;;;;	  (f-name (concatenate 'string *sh-dir* "init.sh"))
+	  (f-name (concatenate 'string *clisp-dir* "init.sh"))
+	  )
       (if (null os)
 	  (progn (func t) t)
 	  (progn 
@@ -174,7 +178,10 @@
 		(format os  "git clone --bare . ~Agit-~A/~A.git ~%" 
 			*git-dir* *m-i* (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 	    (find-filenames-directory-clisp-git))))
-    (let ((f-name (concatenate 'string *sh-dir* "clone--bare.sh")))
+    (let (
+;;;;	  (f-name (concatenate 'string *sh-dir* "clone--bare.sh"))
+	  (f-name (concatenate 'string *clisp-dir* "clone--bare.sh"))
+	  )
       (if (null os)
 	  (progn (func t) t)
 	  (progn (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
@@ -210,20 +217,22 @@
 			     mi *git-dir* mi (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 		 (find-filenames-directory-clisp-git)))
 	    *m-l*)))
-    (let ((f-name (concatenate 'string *sh-dir* "git-remote-re-add.sh")))
+    (let (
+;;;;	  (f-name (concatenate 'string *sh-dir* "git-remote-re-add.sh"))
+	  (f-name (concatenate 'string *clisp-dir* "git-remote-re-add.sh"))
+	  )
       (if (null os)
 	  (progn (func t) t)
 	  (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
 	    (func os)
 	    (values f-name
-		    (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)
-		    ))))))
+		    (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun clone--origin (origin)
-  "Генерирует сценарий, который выполяет клонирование чистых из репозиториев 
-для которых в каталоге с проектами не нашлось соответствующего проекта,
+  "Генерирует сценарий, который выполяет клонирование чистых из репозиториев, для которых 
+в каталоге с проектами не нашлось соответствующего проекта,
 во виз расположения origin 
 ;;;;(clone--origin \"mnasoft-00\")
 "
@@ -277,7 +286,7 @@
   (format t "Расположение:~%")
   (format t "- удаленных репозиториев     : ~A~%" *git-dir*)
   (format t "- asd проектов для команд git: ~A~%" *clisp-dir*)
-  (format t "- asd проектов для команд sh : ~A~%" *sh-dir*)
+;;;;  (format t "- asd проектов для команд sh : ~A~%" *sh-dir*)
   (write-line 
    "    Примеры использования функций:
 ;;;;(mnas-git:init)
