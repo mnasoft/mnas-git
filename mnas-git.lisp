@@ -51,7 +51,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun find-filenames-directory-clisp-git()
-  (mnas-path:find-directory-parent *sh-dir* ".git"))
+;;;;  (mnas-path:find-directory-parent *sh-dir* ".git")
+  (mnas-path:find-directory-parent *clisp-dir* ".git"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -104,7 +105,9 @@
 	 (func (os)
 	   (mapcar #'(lambda (el) (commit-a el os)) (find-filenames-directory-clisp-git)))
 	 )
-    (let ((f-name (concatenate 'string *sh-dir* "commit-a.sh")))
+    (let (
+;;;;	  (f-name (concatenate 'string *sh-dir* "commit-a.sh")))
+	  (f-name (concatenate 'string *clisp-dir* "commit-a.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn
@@ -133,7 +136,10 @@
 	     (func (os)
 	       (mapcar #'(lambda (el) (git-script el git-command os))
 		       (find-filenames-directory-clisp-git))))
-      (let ((f-name (concatenate 'string *sh-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
+      (let (
+;;;;	    (f-name (concatenate 'string *sh-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
+	    (f-name (concatenate 'string *clisp-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
+	    )
 	(if (null os)
 	    (progn (func t) t)
 	    (progn
@@ -221,7 +227,9 @@
 во виз расположения origin 
 ;;;;(clone--origin \"mnasoft-00\")
 "
-  (let ((b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "../../" "git-" origin )))
+  (let (
+;;;;	(b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "../../" "git-" origin )))
+	(b-r (cl-fad:list-directory (concatenate 'string *git-dir* "git-" origin )))
 	(g-r  (find-filenames-directory-clisp-git))
 	(tmp-dir "_temp")
 	)
