@@ -156,7 +156,7 @@
 (defun clone--bare (&optional (os nil))
   "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
 машины *m-i*, создает список команд, который выполняет клонирование чистого 
-репозитория в каталог (concatenate 'string *git-dir* \"git-\" *m-i*); 
+репозитория в каталог (concatenate 'string *git-bare-dir* \"git-\" *m-i*); 
 После создания таким образом каталога с чистыми репозиториями его можно
 перенести на другую машину для выполнения слияния;
    Если опциональный параметр os имеет значение nil,
@@ -168,7 +168,7 @@
 ;;;;(clone--bare t)
   Рекоемндации:
   Перед выполнением даной функции следует удалить соответствующий 
-каталог:  (concatenate 'string *git-dir* \"git-\" *m-i*),
+каталог:  (concatenate 'string *git-bare-dir* \"git-\" *m-i*),
 содержащий чистые репозитории
 "
   (flet ((func (os) 
@@ -176,7 +176,7 @@
 	    #'(lambda (el) 
 		(cd-path el os)
 		(format os  "git clone --bare . ~Agit-~A/~A.git ~%" 
-			*git-dir* *m-i* (file-namestring (string-right-trim "/" (format nil "~A" el)))))
+			*git-bare-dir* *m-i* (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 	    (find-filenames-directory-clisp-git))))
     (let (
 ;;;;	  (f-name (concatenate 'string *sh-dir* "clone--bare.sh"))
@@ -214,7 +214,7 @@
 		     (cd-path el os)
 		     (format os  "git remote remove ~A~%" mi)
 		     (format os  "git remote add ~A ~Agit-~A/~A.git~%" 
-			     mi *git-dir* mi (file-namestring (string-right-trim "/" (format nil "~A" el)))))
+			     mi *git-bare-dir* mi (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 		 (find-filenames-directory-clisp-git)))
 	    *m-l*)))
     (let (
@@ -238,7 +238,7 @@
 "
   (let (
 ;;;;	(b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "../../" "git-" origin )))
-	(b-r (cl-fad:list-directory (concatenate 'string *git-dir* "git-" origin )))
+	(b-r (cl-fad:list-directory (concatenate 'string *git-bare-dir* "git-" origin )))
 	(g-r  (find-filenames-directory-clisp-git))
 	(tmp-dir "_temp")
 	)
@@ -247,7 +247,7 @@
     (format t "cd ~A~%" tmp-dir)
     (mapcar
      #'(lambda (el)
-	 (format t "git clone --origin ~A ~Agit-~A/~A.git~%" origin *git-dir* origin (pathname-name (cl-fad:pathname-as-file el)))
+	 (format t "git clone --origin ~A ~Agit-~A/~A.git~%" origin *git-bare-dir* origin (pathname-name (cl-fad:pathname-as-file el)))
 	 )
      (set-difference
       b-r g-r :test #'(lambda (br gr)
@@ -284,7 +284,7 @@
   (format t "Имя этой машины      : ~A~%" *m-i*)
   (format t "Удаленные репозитории: ~A~%" *m-l*)
   (format t "Расположение:~%")
-  (format t "- удаленных репозиториев     : ~A~%" *git-dir*)
+  (format t "- удаленных репозиториев     : ~A~%" *git-bare-dir*)
   (format t "- asd проектов для команд git: ~A~%" *clisp-dir*)
 ;;;;  (format t "- asd проектов для команд sh : ~A~%" *sh-dir*)
   (write-line 
@@ -302,9 +302,9 @@
 ;;;;(mnas-git:command \"push MNASOFT-01 master\")
 ;;;;(mnas-git:help)")
   (write-line "    Пример использования команд сжатия:")
-  (format t "cd ~A~%" *git-dir*)
+  (format t "cd ~A~%" *git-bare-dir*)
   (format t "tar -cvJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
-  (format t "rm -rf ~Agit-~A/~%" *git-dir* *m-i*)
+  (format t "rm -rf ~Agit-~A/~%" *git-bare-dir* *m-i*)
   (values))
 
 (help)
