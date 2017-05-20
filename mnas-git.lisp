@@ -51,7 +51,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun find-filenames-directory-clisp-git()
-  (mnas-path:find-directory-parent *sh-dir* ".git"))
+;;;;  (mnas-path:find-directory-parent *sh-dir* ".git")
+  (mnas-path:find-directory-parent *clisp-dir* ".git"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -79,8 +80,12 @@
 	     (format os "git init~%"))
 	   (func (os)
 	     (mapcar #'(lambda (el) (make-init-non-git-repo el os))
-		     (find-not-giting-lisp-projects *sh-dir*))))
-    (let ((f-name (concatenate 'string *sh-dir* "init.sh")))
+;;;;		     (find-not-giting-lisp-projects *sh-dir*)
+		     (find-not-giting-lisp-projects *clisp-dir*))))
+    (let (
+;;;;	  (f-name (concatenate 'string *sh-dir* "init.sh"))
+	  (f-name (concatenate 'string *clisp-dir* "init.sh"))
+	  )
       (if (null os)
 	  (progn (func t) t)
 	  (progn 
@@ -104,7 +109,9 @@
 	 (func (os)
 	   (mapcar #'(lambda (el) (commit-a el os)) (find-filenames-directory-clisp-git)))
 	 )
-    (let ((f-name (concatenate 'string *sh-dir* "commit-a.sh")))
+    (let (
+;;;;	  (f-name (concatenate 'string *sh-dir* "commit-a.sh")))
+	  (f-name (concatenate 'string *clisp-dir* "commit-a.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn
@@ -133,7 +140,10 @@
 	     (func (os)
 	       (mapcar #'(lambda (el) (git-script el git-command os))
 		       (find-filenames-directory-clisp-git))))
-      (let ((f-name (concatenate 'string *sh-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh")))
+      (let (
+;;;;	    (f-name (concatenate 'string *sh-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
+	    (f-name (concatenate 'string *clisp-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
+	    )
 	(if (null os)
 	    (progn (func t) t)
 	    (progn
@@ -146,7 +156,7 @@
 (defun clone--bare (&optional (os nil))
   "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
 машины *m-i*, создает список команд, который выполняет клонирование чистого 
-репозитория в каталог (concatenate 'string *git-dir* \"git-\" *m-i*); 
+репозитория в каталог (concatenate 'string *git-bare-dir* \"git-\" *m-i*); 
 После создания таким образом каталога с чистыми репозиториями его можно
 перенести на другую машину для выполнения слияния;
    Если опциональный параметр os имеет значение nil,
@@ -158,7 +168,7 @@
 ;;;;(clone--bare t)
   Рекоемндации:
   Перед выполнением даной функции следует удалить соответствующий 
-каталог:  (concatenate 'string *git-dir* \"git-\" *m-i*),
+каталог:  (concatenate 'string *git-bare-dir* \"git-\" *m-i*),
 содержащий чистые репозитории
 "
   (flet ((func (os) 
@@ -166,9 +176,12 @@
 	    #'(lambda (el) 
 		(cd-path el os)
 		(format os  "git clone --bare . ~Agit-~A/~A.git ~%" 
-			*git-dir* *m-i* (file-namestring (string-right-trim "/" (format nil "~A" el)))))
+			*git-bare-dir* *m-i* (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 	    (find-filenames-directory-clisp-git))))
-    (let ((f-name (concatenate 'string *sh-dir* "clone--bare.sh")))
+    (let (
+;;;;	  (f-name (concatenate 'string *sh-dir* "clone--bare.sh"))
+	  (f-name (concatenate 'string *clisp-dir* "clone--bare.sh"))
+	  )
       (if (null os)
 	  (progn (func t) t)
 	  (progn (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
@@ -201,27 +214,31 @@
 		     (cd-path el os)
 		     (format os  "git remote remove ~A~%" mi)
 		     (format os  "git remote add ~A ~Agit-~A/~A.git~%" 
-			     mi *git-dir* mi (file-namestring (string-right-trim "/" (format nil "~A" el)))))
+			     mi *git-bare-dir* mi (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 		 (find-filenames-directory-clisp-git)))
 	    *m-l*)))
-    (let ((f-name (concatenate 'string *sh-dir* "git-remote-re-add.sh")))
+    (let (
+;;;;	  (f-name (concatenate 'string *sh-dir* "git-remote-re-add.sh"))
+	  (f-name (concatenate 'string *clisp-dir* "git-remote-re-add.sh"))
+	  )
       (if (null os)
 	  (progn (func t) t)
 	  (with-open-file (os f-name :direction :output :if-does-not-exist :create :if-exists :supersede)
 	    (func os)
 	    (values f-name
-		    (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)
-		    ))))))
+		    (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun clone--origin (origin)
-  "Генерирует сценарий, который выполяет клонирование чистых из репозиториев 
-для которых в каталоге с проектами не нашлось соответствующего проекта,
+  "Генерирует сценарий, который выполяет клонирование чистых из репозиториев, для которых 
+в каталоге с проектами не нашлось соответствующего проекта,
 во виз расположения origin 
 ;;;;(clone--origin \"mnasoft-00\")
 "
-  (let ((b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "../../" "git-" origin )))
+  (let (
+;;;;	(b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "../../" "git-" origin )))
+	(b-r (cl-fad:list-directory (concatenate 'string *git-bare-dir* "git-" origin )))
 	(g-r  (find-filenames-directory-clisp-git))
 	(tmp-dir "_temp")
 	)
@@ -230,7 +247,7 @@
     (format t "cd ~A~%" tmp-dir)
     (mapcar
      #'(lambda (el)
-	 (format t "git clone --origin ~A ~Agit-~A/~A.git~%" origin *git-dir* origin (pathname-name (cl-fad:pathname-as-file el)))
+	 (format t "git clone --origin ~A ~Agit-~A/~A.git~%" origin *git-bare-dir* origin (pathname-name (cl-fad:pathname-as-file el)))
 	 )
      (set-difference
       b-r g-r :test #'(lambda (br gr)
@@ -267,9 +284,9 @@
   (format t "Имя этой машины      : ~A~%" *m-i*)
   (format t "Удаленные репозитории: ~A~%" *m-l*)
   (format t "Расположение:~%")
-  (format t "- удаленных репозиториев     : ~A~%" *git-dir*)
+  (format t "- удаленных репозиториев     : ~A~%" *git-bare-dir*)
   (format t "- asd проектов для команд git: ~A~%" *clisp-dir*)
-  (format t "- asd проектов для команд sh : ~A~%" *sh-dir*)
+;;;;  (format t "- asd проектов для команд sh : ~A~%" *sh-dir*)
   (write-line 
    "    Примеры использования функций:
 ;;;;(mnas-git:init)
@@ -285,9 +302,9 @@
 ;;;;(mnas-git:command \"push MNASOFT-01 master\")
 ;;;;(mnas-git:help)")
   (write-line "    Пример использования команд сжатия:")
-  (format t "cd ~A~%" *git-dir*)
+  (format t "cd ~A~%" *git-bare-dir*)
   (format t "tar -cvJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
-  (format t "rm -rf ~Agit-~A/~%" *git-dir* *m-i*)
+  (format t "rm -rf ~Agit-~A/~%" *git-bare-dir* *m-i*)
   (values))
 
 (help)

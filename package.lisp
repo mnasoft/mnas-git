@@ -8,4 +8,4 @@
 	   clone--bare
 	   clone--origin
 	   remote-readd)
-    (:export help))
+  (:export help))
