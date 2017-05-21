@@ -9,7 +9,7 @@
     '(("mnasoft-pi"    "/home/namatv/git--bare/" "/home/namatv/quicklisp/local-projects/"              "")
       ("mnasoft-00"    "/home/namatv/git--bare/" "/home/namatv/quicklisp/local-projects/"              "")
       ("MNASOFT-01"    "/home/namatv/git--bare/" "E:/PRG/msys64/home/namatv/quicklisp/local-projects/" "")
-      
+      ("mnasoft-dev"   "/home/namatv/git--bare/" "/home/namatv/quicklisp/local-projects/"              "")
       ("hp1.zorya.com" "/_storage/otd11/namatv/develop/" "/_storage/otd11/namatv/develop/git/clisp/"         "/_storage/otd11/namatv/develop/git/clisp/")
       ("KO11-118383"   "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"                   "D:/PRG/msys32/home/namatv/develop/git/clisp/"))
     "    Список каждым элементом которого является список, 
@@ -40,5 +40,6 @@
   (defparameter *clisp-dir* (third (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
 
   (defparameter *sh-dir* (fourth (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=))
-    "Not used, Mast be removed after syncronization")) 
-;
+    "Not used, Mast be removed after syncronization"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
