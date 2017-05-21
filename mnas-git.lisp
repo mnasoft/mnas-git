@@ -306,8 +306,8 @@
   (format t "- удаленными чистыми git-репозиториями  : ~A~%" *git-bare-dir*)
   (format t "- asd-проектами Common Lisp             : ~A~%" *clisp-dir*)
 ;;;;  (format t "- asd проектов для команд sh : ~A~%" *sh-dir*)
-  (write-line 
-"Примеры использования функций:
+  (write-line "
+Примеры использования функций:
 ==============================
 ;;;;(mnas-git:init)
 ;;;;
@@ -320,7 +320,8 @@
 ;;;;(mnas-git:command \"pull MNASOFT-01 master\")
 ;;;;(mnas-git:command \"push MNASOFT-01 master\")
 ;;;;(mnas-git:help)")
-  (write-line "Пример использования команд сжатия:
+  (write-line "
+Пример использования команд сжатия:
 ==================================")
   (format t "cd ~A~%" *git-bare-dir*)
   (format t "tar -cvJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
