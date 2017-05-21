@@ -7,10 +7,7 @@
 (progn
   (defparameter *mahine-git_dir-clisp_dir*
     '(("mnasoft-pi"    "/home/namatv/git--bare/"   "/home/namatv/quicklisp/local-projects/"            "")
-    
       ("mnasoft-00"    "/home/namatv/git--bare/" "/home/namatv/quicklisp/local-projects/"              "")
-;;;;  ("MNASOFT-01"    "/home/namatv/develop/"   "/home/namatv/develop/git/clisp/"                     "c:/msys64/home/namatv/develop/git/clisp/")
-;;;;  ("MNASOFT-01"    "/home/namatv/develop/"   "/home/namatv/develop/git/clisp/"                     "e:/PRG/msys64/home/namatv/develop/git/clisp/")
       ("MNASOFT-01"    "/home/namatv/git--bare/" "E:/PRG/msys64/home/namatv/quicklisp/local-projects/" "")
 
       ("mnasoft-dev"    "/home/namatv/git--bare/"   "/home/namatv/quicklisp/local-projects/"            "")
@@ -44,5 +41,6 @@
   (defparameter *clisp-dir* (third (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
 
   (defparameter *sh-dir* (fourth (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=))
-    "Not used, Mast be removed after syncronization")) 
-;
+    "Not used, Mast be removed after syncronization"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
