@@ -323,7 +323,7 @@
   (write-line "
 Пример использования команд сжатия:
 ==================================")
-  (format t "cd ~A~%" *git-bare-dir*)
+  (format t "cd ~A~%" *git-bare-dir-win*)
   (format t "tar -cvJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
   (format t "rm -rf ~Agit-~A/~%" *git-bare-dir* *m-i*)
   (values))
