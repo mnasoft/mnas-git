@@ -37,7 +37,7 @@
 - в которых удалось найти файлы удовлетворяющие шаблону name;
 - поиск файлов начинается с каталога path;
 Пример использования:
-;;;;(find-filenames-directory *clisp-dir* \"*.lisp\")
+;;;;(find-filenames-directory *clisp-dir-win* \"*.lisp\")
 "
   (unique
    (mapcar
@@ -51,8 +51,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun find-filenames-directory-clisp-git()
-;;;;  (mnas-path:find-directory-parent *sh-dir* ".git")
-  (mnas-path:find-directory-parent *clisp-dir* ".git"))
+;;;;  (mnas-path:find-directory-parent *git-bare-dir-win* ".git")
+  (mnas-path:find-directory-parent *clisp-dir-win* ".git"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -61,7 +61,7 @@
 вглубь дерева каталогов, для которых в каталоге их 
 размещения отвутствует каталог .git;
 Пример использования:
-;;;;(find-not-giting-lisp-projects *clisp-dir*)
+;;;;(find-not-giting-lisp-projects *clisp-dir-win*)
 "
   (let ((asd-dirs (mnas-path:find-filename-directory path "asd"))
 	(git-dirs  (mnas-path:find-directory-parent path ".git")))
@@ -80,11 +80,11 @@
 	     (format os "git init~%"))
 	   (func (os)
 	     (mapcar #'(lambda (el) (make-init-non-git-repo el os))
-;;;;		     (find-not-giting-lisp-projects *sh-dir*)
-		     (find-not-giting-lisp-projects *clisp-dir*))))
+;;;;		     (find-not-giting-lisp-projects *git-bare-dir-win*)
+		     (find-not-giting-lisp-projects *clisp-dir-win*))))
     (let (
-;;;;	  (f-name (concatenate 'string *sh-dir* "init.sh"))
-	  (f-name (concatenate 'string *clisp-dir* "init.sh"))
+;;;;	  (f-name (concatenate 'string *git-bare-dir-win* "init.sh"))
+	  (f-name (concatenate 'string *clisp-dir-win* "init.sh"))
 	  )
       (if (null os)
 	  (progn (func t) t)
@@ -96,7 +96,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun commit-a (&optional (os nil))
-  "Для каждого репозитория, расположенного в каталоге *clisp-dir* 
+  "Для каждого репозитория, расположенного в каталоге *clisp-dir-win* 
 текущей машины *m-i*, генерирует сценарий, выполняющий команду git commit -a;
 В качестве комментария используется строка предтвляющая,
 значение текущей даты и времени;
@@ -110,8 +110,8 @@
 	   (mapcar #'(lambda (el) (commit-a el os)) (find-filenames-directory-clisp-git)))
 	 )
     (let (
-;;;;	  (f-name (concatenate 'string *sh-dir* "commit-a.sh")))
-	  (f-name (concatenate 'string *clisp-dir* "commit-a.sh")))
+;;;;	  (f-name (concatenate 'string *git-bare-dir-win* "commit-a.sh")))
+	  (f-name (concatenate 'string *clisp-dir-win* "commit-a.sh")))
       (if (null os)
 	  (progn (func t) t)
 	  (progn
@@ -122,7 +122,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun command (command &optional (os nil))
-  "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
+  "Для каждого репозитория, расположенного в каталоге *clisp-dir-win* текущей 
 машины *m-i*, генерирует сценарий, выполняющий команду git-command;
    Если опциональный параметр os имеет значение nil,
 вывод функции направляется на стандартный вывод при этом функция возврвщает t,
@@ -141,8 +141,8 @@
 	       (mapcar #'(lambda (el) (git-script el git-command os))
 		       (find-filenames-directory-clisp-git))))
       (let (
-;;;;	    (f-name (concatenate 'string *sh-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
-	    (f-name (concatenate 'string *clisp-dir* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
+;;;;	    (f-name (concatenate 'string *git-bare-dir-win* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
+	    (f-name (concatenate 'string *clisp-dir-win* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
 	    )
 	(if (null os)
 	    (progn (func t) t)
@@ -154,7 +154,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun clone--bare (&optional (os nil))
-  "Для каждого репозитория, расположенного в каталоге *clisp-dir* текущей 
+  "Для каждого репозитория, расположенного в каталоге *clisp-dir-win* текущей 
 машины *m-i*, создает список команд, который выполняет клонирование чистого 
 репозитория в каталог (concatenate 'string *git-bare-dir* \"git-\" *m-i*); 
 После создания таким образом каталога с чистыми репозиториями его можно
@@ -179,8 +179,8 @@
 			*git-bare-dir* *m-i* (file-namestring (string-right-trim "/" (format nil "~A" el)))))
 	    (find-filenames-directory-clisp-git))))
     (let (
-;;;;	  (f-name (concatenate 'string *sh-dir* "clone--bare.sh"))
-	  (f-name (concatenate 'string *clisp-dir* "clone--bare.sh"))
+;;;;	  (f-name (concatenate 'string *git-bare-dir-win* "clone--bare.sh"))
+	  (f-name (concatenate 'string *clisp-dir-win* "clone--bare.sh"))
 	  )
       (if (null os)
 	  (progn (func t) t)
@@ -191,7 +191,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun remote-readd (&optional (os nil))
-  "Для каждого репозитория расположенного в каталоге *clisp-dir* создает список команд, который выполняет:
+  "Для каждого репозитория расположенного в каталоге *clisp-dir-win* создает список команд, который выполняет:
 - отсоединение от внешних репозиториев (список *m-l*), которые для данной машины *m-i* вожможно
   имеют неправильное расположение;
 - присоединение к внешним репозиториям (список *m-l*), которые для данной машины *m-i* должны
@@ -218,8 +218,8 @@
 		 (find-filenames-directory-clisp-git)))
 	    *m-l*)))
     (let (
-;;;;	  (f-name (concatenate 'string *sh-dir* "git-remote-re-add.sh"))
-	  (f-name (concatenate 'string *clisp-dir* "git-remote-re-add.sh"))
+;;;;	  (f-name (concatenate 'string *git-bare-dir-win* "git-remote-re-add.sh"))
+	  (f-name (concatenate 'string *clisp-dir-win* "git-remote-re-add.sh"))
 	  )
       (if (null os)
 	  (progn (func t) t)
@@ -237,12 +237,12 @@
 ;;;;(clone--origin \"mnasoft-00\")
 "
   (let (
-	(b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "git-" origin )))
+	(b-r (cl-fad:list-directory (concatenate 'string *git-bare-dir-win* "git-" origin )))
 ;;;;	(b-r (cl-fad:list-directory (concatenate 'string *git-bare-dir* "git-" origin )))
 	(g-r  (find-filenames-directory-clisp-git))
 	(tmp-dir "_temp")
 	)
-    (cd-path *clisp-dir* t)
+    (cd-path *clisp-dir-win* t)
     (format t "mkdir ~A~%" tmp-dir)
     (format t "cd ~A~%" tmp-dir)
     (mapcar
@@ -304,8 +304,8 @@
   (format t "Список удаленных чистых git-репозиториев: ~A~%" *m-l*)
   (format t "Расположение каталога с:~%")
   (format t "- удаленными чистыми git-репозиториями  : ~A~%" *git-bare-dir*)
-  (format t "- asd-проектами Common Lisp             : ~A~%" *clisp-dir*)
-;;;;  (format t "- asd проектов для команд sh : ~A~%" *sh-dir*)
+  (format t "- asd-проектами Common Lisp             : ~A~%" *clisp-dir-win*)
+;;;;  (format t "- asd проектов для команд sh : ~A~%" *git-bare-dir-win*)
   (write-line "
 Примеры использования функций:
 ==============================
