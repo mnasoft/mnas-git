@@ -6,25 +6,22 @@
 
 (progn
   (defparameter *mahine-git_dir-clisp_dir*
-    '(("mnasoft-pi"    "/home/namatv/git--bare/"   "/home/namatv/quicklisp/local-projects/"            "")
+    '(("mnasoft-pi"    "/home/namatv/git--bare/"          "/home/namatv/quicklisp/local-projects/"              "/home/namatv/git--bare/")
     
-      ("mnasoft-00"    "/home/namatv/git--bare/" "/home/namatv/quicklisp/local-projects/"              "")
-;;;;  ("MNASOFT-01"    "/home/namatv/develop/"   "/home/namatv/develop/git/clisp/"                     "c:/msys64/home/namatv/develop/git/clisp/")
-;;;;  ("MNASOFT-01"    "/home/namatv/develop/"   "/home/namatv/develop/git/clisp/"                     "e:/PRG/msys64/home/namatv/develop/git/clisp/")
-      ("MNASOFT-01"    "/home/namatv/git--bare/" "E:/PRG/msys64/home/namatv/quicklisp/local-projects/" "")
+      ("mnasoft-00"    "/home/namatv/git--bare/"          "/home/namatv/quicklisp/local-projects/"              "/home/namatv/git--bare/")
+      ("MNASOFT-01"    "/home/namatv/git--bare/"          "E:/PRG/msys64/home/namatv/quicklisp/local-projects/" "E:/PRG/msys64/home/namatv/git--bare/")
 
-      ("mnasoft-dev"    "/home/namatv/git--bare/"   "/home/namatv/quicklisp/local-projects/"            "")
-      ("hp1.zorya.com" "/_storage/otd11/namatv/develop/" "/_storage/otd11/namatv/develop/git/clisp/"         "/_storage/otd11/namatv/develop/git/clisp/")
-      ("KO11-118383"   "/home/namatv/develop/"           "/home/namatv/develop/git/clisp/"                   "D:/PRG/msys32/home/namatv/develop/git/clisp/"))
+      ("mnasoft-dev"    "/home/namatv/git--bare/"         "/home/namatv/quicklisp/local-projects/"              "/home/namatv/git--bare/")
+      ("hp1.zorya.com" "/_storage/otd11/namatv/develop/"  "/_storage/otd11/namatv/develop/git/clisp/"           "/_storage/otd11/namatv/develop/git/clisp/")
+      ("KO11-118383"   "/home/namatv/git--bare/"          "D:/PRG/msys32/home/namatv/quicklisp/local-projects/" "D:/PRG/msys32/home/namatv/git--bare/"))
     "    Список каждым элементом которого является список, 
 относящийся к определенному хосту, состоящий из:
 1 - имени хоста;
 2 - имени каталога, в котором находятся:
 - чистые репозитории git;
 - архивы чистых репозиториев git;
-3 - имени каталога в котором находятся исходные файлы проектов common lisp;
-4 - имени каталога в котором сохраняются пути к сценариям bash
-    На основе данной переменной для конкретного хоста формируются переменные:
+3 - имени каталога в котором находятся исходные файлы проектов common lisp.
+    На основе этой переменной для конкретного хоста формируются переменные:
 *m-l*, *git-dir*, *clisp-dir* , *sh-dir*
     Более в дальнейших вычислениях она не участвует")
 
@@ -39,10 +36,13 @@
   (defparameter *git-bare-dir* (second (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=))
     "Имя каталога, в котором находятся:
 - чистые репозитории git;
-- архивы чистых репозиториев git")
+- архивы чистых репозиториев git.
+Пути как в Unix")
 
   (defparameter *clisp-dir* (third (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
 
   (defparameter *sh-dir* (fourth (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=))
-    "Not used, Mast be removed after syncronization")) 
-;
+    "Имя каталога, в котором находятся:
+- чистые репозитории git;
+- архивы чистых репозиториев git.
+Пути как в Windows")) 

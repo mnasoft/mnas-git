@@ -237,8 +237,8 @@
 ;;;;(clone--origin \"mnasoft-00\")
 "
   (let (
-;;;;	(b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "../../" "git-" origin )))
-	(b-r (cl-fad:list-directory (concatenate 'string *git-bare-dir* "git-" origin )))
+	(b-r (cl-fad:list-directory (concatenate 'string *sh-dir* "git-" origin )))
+;;;;	(b-r (cl-fad:list-directory (concatenate 'string *git-bare-dir* "git-" origin )))
 	(g-r  (find-filenames-directory-clisp-git))
 	(tmp-dir "_temp")
 	)
