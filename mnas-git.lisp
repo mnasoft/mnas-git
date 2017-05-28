@@ -303,7 +303,7 @@
   (format t "Имя этой машины                         : ~A~%" *m-i*)
   (format t "Список удаленных чистых git-репозиториев: ~A~%" *m-l*)
   (format t "Расположение каталога с:~%")
-  (format t "- удаленными чистыми git-репозиториями  : ~A~%" *git-bare-dir*)
+  (format t "- удаленными чистыми git-репозиториями  : ~A~%" *git-bare-dir-win*)
   (format t "- asd-проектами Common Lisp             : ~A~%" *clisp-dir-win*)
 ;;;;  (format t "- asd проектов для команд sh : ~A~%" *git-bare-dir-win*)
   (write-line "
