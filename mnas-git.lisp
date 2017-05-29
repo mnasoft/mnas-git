@@ -325,7 +325,7 @@
 ==================================")
   (format t "cd ~A~%" *git-bare-dir-win*)
   (format t "tar -cvJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
-  (format t "rm -rf ~Agit-~A/~%" *git-bare-dir* *m-i*)
+  (format t "rm -rf ~Agit-~A/~%" *git-bare-dir-win* *m-i*)
   (values))
 
 (help)
