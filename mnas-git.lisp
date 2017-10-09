@@ -255,8 +255,25 @@
 			 (pathname-name (cl-fad:pathname-as-file br))
 			 (pathname-name (cl-fad:pathname-as-file gr))))))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun help ()
+(defun print-list (lst &key (clear-line 50))
+  (let ((i 0))
+    (format t (format nil "~~~A%" clear-line))
+    (mapcar
+     #'(lambda (el)
+	 (format t "~A: ~A~%" i el)
+	 (incf i))
+     lst)))
+
+(defun command-machine ()
+  (do ((inp nil (read))
+       (len (length *m-l*) (length *m-l*)))
+      ((and (integerp inp) (<= 0 inp) (< inp len)) (nth inp *m-l*))
+    (print-list *m-l*)
+    (format t "~&Введите число:")))
+
+(defun help (&optional (remote-machine-name (command-machine)))
   (write-line
    "  MNAS-GIT - проект предназначен для несетевого способа синхроизации репозиториев git;
   Функции, выполняющие формирование сценариев коммандной оболочки для управления репозиториями git 
@@ -311,14 +328,16 @@
 ==============================
 ;;;;(mnas-git:init)
 ;;;;
-;;;;(mnas-git:remote-readd)
-;;;;(mnas-git:clone--origin \"MNASOFT-01\")
+;;;;(mnas-git:remote-readd)")
+  (format t "~&;;;;(mnas-git:clone--origin ~S)" remote-machine-name)
+  (write-line "
 ;;;;
 ;;;;(progn (mnas-git:command \"add *.lisp *.asd\")   (mnas-git:commit-a)   (mnas-git:clone--bare))
 ;;;;(progn (mnas-git:command \"add *.lisp *.asd\" t) (mnas-git:commit-a t) (mnas-git:clone--bare t))
-;;;;
-;;;;(mnas-git:command \"pull MNASOFT-01 master\")
-;;;;(mnas-git:command \"push MNASOFT-01 master\")
+;;;;")
+  (format t "~&;;;;(mnas-git:command \"pull ~A master\")" remote-machine-name)
+  (format t "~&;;;;(mnas-git:command \"push ~A master\")" remote-machine-name)
+  (write-line "
 ;;;;(mnas-git:help)")
   (write-line "
 Пример использования команд сжатия:
@@ -327,5 +346,7 @@
   (format t "tar -cvJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
   (format t "rm -rf ~Agit-~A/~%" *git-bare-dir-win* *m-i*)
   (values))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (help)
