@@ -271,7 +271,7 @@
        (len (length *m-l*) (length *m-l*)))
       ((and (integerp inp) (<= 0 inp) (< inp len)) (nth inp *m-l*))
     (print-list *m-l*)
-    (format t "~&Введите число:")))
+    (format t "~&Введите число, соответствующее удалённой (remote) машине:")))
 
 (defun help (&optional (remote-machine-name (command-machine)))
   (write-line
