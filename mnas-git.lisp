@@ -318,6 +318,7 @@
 |---------------+--------------+------------------------------------------------------------------|
 ")
   (format t "Имя этой машины                         : ~A~%" *m-i*)
+  (format t "Имя удалённой (remote) машины           : ~A~%" remote-machine-name)
   (format t "Список удаленных чистых git-репозиториев: ~A~%" *m-l*)
   (format t "Расположение каталога с:~%")
   (format t "- удаленными чистыми git-репозиториями  : ~A~%" *git-bare-dir-win*)
@@ -328,23 +329,22 @@
 ==============================
 ;;;;(mnas-git:init)
 ;;;;
-;;;;(mnas-git:remote-readd)")
+;;;;(mnas-git:remote-readd t)")
   (format t "~&;;;;(mnas-git:clone--origin ~S)" remote-machine-name)
+  (format t "~&;;;;(mnas-git:command \"pull ~A master\" t)" remote-machine-name)
   (write-line "
 ;;;;
-;;;;(progn (mnas-git:command \"add *.lisp *.asd\")   (mnas-git:commit-a)   (mnas-git:clone--bare))
 ;;;;(progn (mnas-git:command \"add *.lisp *.asd\" t) (mnas-git:commit-a t) (mnas-git:clone--bare t))
 ;;;;")
-  (format t "~&;;;;(mnas-git:command \"pull ~A master\")" remote-machine-name)
-  (format t "~&;;;;(mnas-git:command \"push ~A master\")" remote-machine-name)
-  (write-line "
-;;;;(mnas-git:help)")
+  (write-line ";;;;(mnas-git:help)")
   (write-line "
 Пример использования команд сжатия:
 ==================================")
   (format t "cd ~A~%" *git-bare-dir-win*)
   (format t "tar -cvJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
   (format t "rm -rf ~Agit-~A/~%" *git-bare-dir-win* *m-i*)
+  (write-line "
+====================================================================================================")  
   (values))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
