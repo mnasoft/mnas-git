@@ -5,13 +5,18 @@
 ;;; "mnas-git" goes here. Hacks and glory await!
 
 (progn
+  (defparameter *user* (pathname-name (sb-unix::posix-getenv "HOME")))
+
   (defparameter *mahine-git_dir-clisp_dir*
-    '(("mnasoft-pi"    "/home/namatv/git--bare/"          "/home/namatv/quicklisp/local-projects/"              "")
-      ("mnasoft-00"    "/home/namatv/git--bare/"          "/home/namatv/quicklisp/local-projects/"              "")
-      ("mnasoft-dev"   "/home/namatv/git--bare/"          "/home/namatv/quicklisp/local-projects/"              "")
-      ("MNASOFT-01"    "/home/namatv/git--bare/"          "/home/namatv/quicklisp/local-projects/"              "C:/msys32")
-      ("KO11-118383"   "/home/namatv/git--bare/"          "/home/namatv/quicklisp/local-projects/"              "D:/PRG/msys32")
-      ("hp1.zorya.com" "/_storage/otd11/namatv/develop/"  "/_storage/otd11/namatv/develop/git/clisp/"           "/_storage/otd11/namatv/develop/git/clisp/"))
+    (list
+     (list "mnasoft-pi"    (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")              "")
+     (list "mnasoft-00"    (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")              "")
+     (list "mnasoft-dev"   (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")              "")
+     (list "MNASOFT-01"    (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")     "C:/msys32")
+     (list "KO11-118383"   (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/") "D:/PRG/msys32")
+     (list "N118389"       (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")     "C:/msys32")     
+;;;; (list "hp1.zorya.com" "/_storage/otd11/namatv/develop/"  "/_storage/otd11/namatv/develop/git/clisp/"           "/_storage/otd11/namatv/develop/git/clisp/")
+     )
     "    Список каждым элементом которого является список, 
 относящийся к определенному хосту, состоящий из:
 1 - имени хоста;
@@ -21,7 +26,7 @@
 3 - имени каталога в котором находятся исходные файлы проектов common lisp;
 4 - путь к каталогу MSYS2 для os Windows.
     На основе этой переменной для конкретного хоста формируются переменные:
-*m-l*, *git-dir*, *clisp-dir* , *sh-dir*
+*m-l* , *git-bare-dir* , *clisp-dir* , *root-prefix* , *clisp-dir-win* , *git-bare-dir-win*
     Более в дальнейших вычислениях она не участвует")
 
   (defparameter *m-i* (machine-instance)
@@ -29,8 +34,6 @@
 
   (defparameter *m-l* (mapcar #'first *mahine-git_dir-clisp_dir*)
     "Список имен хостов, участвующих в синхронизации")
-
-;;;;(defparameter *git-dir* (second (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=)))
 
   (defparameter *git-bare-dir* (second (assoc *m-i* *mahine-git_dir-clisp_dir* :test #'string=))
     "Имя каталога, в котором находятся:
