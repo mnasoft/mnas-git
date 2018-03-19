@@ -5,7 +5,7 @@
 ;;; "mnas-git" goes here. Hacks and glory await!
 
 (progn
-  (defparameter *user* (pathname-name (sb-unix::posix-getenv "HOME")))
+  (defparameter *user* (pathname-name (sb-posix:getenv "HOME")))
 
   (defparameter *mahine-git_dir-clisp_dir*
     (list
