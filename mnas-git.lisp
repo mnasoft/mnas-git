@@ -103,6 +103,7 @@
    Пример использования:
 ;;;;(commit-a)
 ;;;;(commit-a t)"
+    (format t "mnas-git:commit-a ...Start...~%" ) 
   (labels ((commit-a (path &optional (os t))
 	   (cd-path path os)
 	   (format os "git commit -a -m \"~A ~A\"~%" (decoded-time-out) *m-i*))
@@ -132,6 +133,7 @@
 ;;;;(command  \"git remote remove other\")
 ;;;;(command  \"git remote remove other\" t)
 "
+  (format t "mnas-git:command ~A ...Start...~%" command) 
   (let ((git-command (concatenate 'string "git" " " command)))
     (labels (
 	     (git-script(path script &optional (os t))
@@ -171,6 +173,7 @@
 каталог:  (concatenate 'string *git-bare-dir* \"git-\" *m-i*),
 содержащий чистые репозитории
 "
+  (format t "mnas-git:clone--bare ...Start...~%") 
   (flet ((func (os) 
 	   (mapcar 
 	    #'(lambda (el) 
