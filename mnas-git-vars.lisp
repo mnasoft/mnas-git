@@ -13,7 +13,7 @@
      (list "mnasoft-00"    (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")                       "")
      (list "mnasoft-dev"   (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")                       "")
      (list "MNASOFT-01"    (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")          "D:/PRG/msys32")
-     (list "KO11-118383"   (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/") "C:/Users/Public/msys32")
+     (list "KO11-118383"   (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")          "D:/PRG/msys32")
      (list "N118389"       (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")              "C:/msys32")
 ;;;; (list "hp1.zorya.com" "/_storage/otd11/namatv/develop/"  "/_storage/otd11/namatv/develop/git/clisp/"           "/_storage/otd11/namatv/develop/git/clisp/")
      )
