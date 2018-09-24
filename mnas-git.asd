@@ -1,9 +1,9 @@
 ;;;; mnas-git.asd
 
-(asdf:defsystem #:mnas-git
+(defsystem #:mnas-git
   :description "Describe mnas-git here"
-  :author "Your Name <your.name@example.com>"
-  :license "Specify license here"
+  :author "Nick Matvyeyev <mnasoft@gmail.com>"
+  :license "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 or later"  
   :serial t
   :depends-on (#:cl-fad #:mnas-string #:mnas-list #:mnas-path) ;; 
   :components ((:file "package")
