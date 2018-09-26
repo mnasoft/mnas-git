@@ -1,5 +1,10 @@
 This is the stub README.txt for the "mnas-git" project.
 
+#Экспорт изменений в удаленные калалоги
+======================================
+
+for i in cl.net github.com gitlab.com ; do git push $i master; done
+
 
 Set UTF-8 display for Git GUI differences window
 ================================================
