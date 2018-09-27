@@ -331,9 +331,9 @@
 Примеры использования функций:
 ==============================
 ;;;;(mnas-git:init)
-;;;;
-;;;;(mnas-git:remote-readd t)")
+;;;;")
   (format t "~&;;;;(mnas-git:clone--origin ~S)" remote-machine-name)
+  (format t "~&;;;;(mnas-git:remote-readd t)")
   (format t "~&;;;;(mnas-git:command \"pull ~A master\" t)" remote-machine-name)
   (write-line "
 ;;;;
