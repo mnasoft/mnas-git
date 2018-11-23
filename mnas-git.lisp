@@ -337,7 +337,7 @@
   (format t "~&;;;;(mnas-git:command \"pull ~A master\" t)" remote-machine-name)
   (write-line "
 ;;;;
-;;;;(progn (mnas-git:command \"add *.lisp *.asd\" t) (mnas-git:commit-a t) (mnas-git:clone--bare t))
+;;;;(progn (mnas-git:command \"add *.lisp *.org *.asd\" t) (mnas-git:commit-a t) (mnas-git:clone--bare t))
 ;;;;")
   (write-line ";;;;(mnas-git:help)")
   (write-line "
