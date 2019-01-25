@@ -342,14 +342,16 @@
 ;;;;
 ;;;;Для каталога ~/org в bash
 ;;;;=========================
-    cd ~/org; find . -name \"*.org\" | xargs git add;
+")
+  (format t "cd ; cd org; find . -name \"*.org\" | xargs git add; git push ~A master ~%" *m-i*)  
+  (write-line "
 ;;;;
 ")
   (write-line ";;;;(mnas-git:help)")
   (write-line "
 Пример использования команд сжатия:
 ==================================")
-;;  (format t "rm -rf git-~A.tar.xz~%" *git-bare-dir-win* *m-i*)
+  ;;  (format t "rm -rf git-~A.tar.xz~%" *git-bare-dir-win* *m-i*)
   (format t "rm -rf ~Agit-~A.tar.xz~%" *git-bare-dir-win*  *m-i*)
   (format t "cd ~A~%" *git-bare-dir-win*)
   (format t "tar -cJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
