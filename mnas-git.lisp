@@ -342,8 +342,8 @@
 ;;;;
 ;;;;Для каталога ~/org в bash
 ;;;;=========================
-find . -name \"*.org\" | xargs git add
-
+    cd ~/org; find . -name \"*.org\" | xargs git add;
+;;;;
 ")
   (write-line ";;;;(mnas-git:help)")
   (write-line "
