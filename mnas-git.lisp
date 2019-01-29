@@ -345,6 +345,7 @@
 ;;;;Для каталога ~/org в bash
 ;;;;=========================
 ")
+  (format t "cd ; cd org; git pull ~A master;~%" remote-machine-name)
   (format t "cd ; cd org; find . -name \"*.org\" | xargs git add; git commit -m \"`date`\"; git push ~A master ~%" *m-i*)
   (write-line "
 ;;;;
