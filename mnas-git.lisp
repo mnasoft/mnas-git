@@ -358,7 +358,7 @@
   (format t "rm -rf ~Agit-~A.tar.xz~%" *git-bare-dir-win*  *m-i*)
   (format t "cd ~A~%" *git-bare-dir-win*)
   (format t "tar -cJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
-  (format t "echo \"DONE\"")
+  (format t "echo \"DONE\"~%")
   (format t "# rm -rf ~Agit-~A/~%" *git-bare-dir-win* *m-i*)
   (write-line "
 ====================================================================================================")  
