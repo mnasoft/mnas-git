@@ -335,9 +335,11 @@
   (format t "~&;;;;(mnas-git:clone--origin ~S)" remote-machine-name)
   (format t "~&;;;;(mnas-git:remote-readd t)")
   (format t "~&;;;;(mnas-git:command \"pull ~A master\" t)" remote-machine-name)
+  (format t "
+    (progn (mnas-git:command \"add *.lisp *.org *.asd\" t) 
+           (mnas-git:commit-a t)
+           (mnas-git:command \"push ~A master\" t))" *m-i*)
   (write-line "
-;;;;
-;;;;(progn (mnas-git:command \"add *.lisp *.org *.asd\" t) (mnas-git:commit-a t))
 ;;;;(mnas-git:clone--bare t)
 ;;;;
 ;;;;Для каталога ~/org в bash
