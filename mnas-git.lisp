@@ -260,7 +260,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun print-list (lst &key (clear-line 50))
+(defun print-list (lst &key (clear-line 2))
   (let ((i 0))
     (format t (format nil "~~~A%" clear-line))
     (mapcar
@@ -276,7 +276,7 @@
     (print-list *m-l*)
     (format t "~&Введите число, соответствующее удалённой (remote) машине:")))
 
-(defun help (&optional (remote-machine-name (command-machine)))
+(defun man ()
   (write-line
    "  MNAS-GIT - проект предназначен для несетевого способа синхроизации репозиториев git;
   Функции, выполняющие формирование сценариев коммандной оболочки для управления репозиториями git 
@@ -319,7 +319,9 @@
 |               |              | затем выполняется, а функция возвращает имя сгенерированного     |
 |               |              | сценария                                                         |
 |---------------+--------------+------------------------------------------------------------------|
-")
+"))
+
+(defun help (&optional (remote-machine-name (command-machine)))
   (format t "Имя этой машины                         : ~A~%" *m-i*)
   (format t "Имя удалённой (remote) машины           : ~A~%" remote-machine-name)
   (format t "Список удаленных чистых git-репозиториев: ~A~%" *m-l*)
@@ -330,38 +332,40 @@
   (write-line "
 Примеры использования функций:
 ==============================
-;;;;(mnas-git:init)
-;;;;")
-  (format t "~&;;;;(mnas-git:clone--origin ~S)" remote-machine-name)
-  (format t "~&;;;;(mnas-git:remote-readd t)")
-  (format t "~&;;;;(mnas-git:command \"pull ~A master\" t)" remote-machine-name)
-  (format t "
-    (progn (mnas-git:command \"add *.lisp *.org *.asd\" t) 
-           (mnas-git:commit-a t)
-           (mnas-git:command \"push ~A master\" t))" *m-i*)
-  (write-line "
-;;;;(mnas-git:clone--bare t)
-;;;;
-;;;;Для каталога ~/org в bash
-;;;;=========================
-")
-  (format t "cd ; cd org; git pull ~A master;~%" remote-machine-name)
-  (format t "cd ; cd org; find . -name \"*.org\" | xargs git add; git commit -m \"`date`\"; git push ~A master ~%" *m-i*)
-  (write-line "
-;;;;
-")
-  (write-line ";;;;(mnas-git:help)")
-  (write-line "
-Пример использования команд сжатия:
-==================================")
-  ;;  (format t "rm -rf git-~A.tar.xz~%" *git-bare-dir-win* *m-i*)
-  (format t "rm -rf ~Agit-~A.tar.xz~%" *git-bare-dir-win*  *m-i*)
-  (format t "cd ~A~%" *git-bare-dir-win*)
-  (format t "tar -cJf git-~A.tar.xz git-~A/~%" *m-i* *m-i*)
-  (format t "echo \"DONE\"~%")
-  (format t "# rm -rf ~Agit-~A/~%" *git-bare-dir-win* *m-i*)
-  (write-line "
-====================================================================================================")  
+ 1. Инициализация каталогов git
+ (mnas-git:init)
+
+ 2. Клонирование каталогов из чистого репозитория")
+  (format t "~& (mnas-git:clone--origin ~S)" remote-machine-name)
+
+  (format t "~&~% 3. Переопределение расположения чистых репозирориев")
+  (format t "~& (mnas-git:remote-readd t)")
+
+  (format t "~&~% 4. Получение изменений из чистых репозирориев")
+  (format t "~& (mnas-git:command \"pull ~A master\" t)" remote-machine-name)
+  (format t "~&~% 4.1. Для каталога ~~/org в bash")
+  (format t "~&cd ; cd org; git pull ~A master;~%" remote-machine-name)
+
+  (format t "~&~% 5. Добавление, коммит и отправка изменений в чистый репозиторий")
+  (format t "~& (progn (mnas-git:command \"add *.lisp *.org *.asd\" t) 
+  (mnas-git:commit-a t)
+  (mnas-git:command \"push ~A master\" t))" *m-i*)
+  (format t "~&~% 5.1. Для каталога ~~/org в bash")
+  (format t "~&cd ; cd org; find . -name \"*.org\" | xargs git add; git commit -m \"`date`\"; git push ~A master" *m-i*)
+  (format t "~&cd ; cd org; find . -name \"*.trd\" | xargs git add; git commit -m \"`date`\"; git push ~A master" *m-i*)
+
+  (format t "~&~% 6. Архивирование чистого репозитория:")
+  (format t "~& rm -rf ~Agit-~A.tar.xz" *git-bare-dir-win*  *m-i*)
+  (format t "~& cd ~A" *git-bare-dir-win*)
+  (format t "~& tar -cJf git-~A.tar.xz git-~A/" *m-i* *m-i*)
+  (format t "~& echo \"DONE\"")
+
+  (format t "~&~% 7. Колнирование в чистый репозиторий")
+  (format t "~&# (mnas-git:clone--bare t)")
+  
+  (format t "~&~% 8. Удаление чистого репозитория:")
+  (format t "~&# rm -rf ~Agit-~A/~%" *git-bare-dir-win* *m-i*)
+  
   (values))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

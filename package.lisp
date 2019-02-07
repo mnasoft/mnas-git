@@ -1,12 +1,17 @@
-;;;; package.lisp
+;;;; package.nlisp
+
+(defpackage #:mnas-git)
 
 (defpackage #:mnas-git
   (:use #:cl #:mnas-string #:mnas-list #:mnas-path)
-  (:export command
-	   init
-	   commit-a
-	   clone--bare
-	   clone--origin
-	   remote-readd)
-  (:export help))
+  (:export mnas-git::command
+	   mnas-git::init
+	   mnas-git::commit-a
+	   mnas-git::clone--bare
+	   mnas-git::clone--origin
+	   mnas-git::remote-readd
+	   )
+  (:export mnas-git::man
+	   mnas-git::help))
+
 ;;;;(declaim (optimize (space 0) (compilation-speed 0)  (speed 0) (safety 3) (debug 3)))
