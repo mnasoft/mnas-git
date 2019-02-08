@@ -353,23 +353,18 @@
   (format t "~& (mnas-git:remote-readd t)")
 
   (format t "~&~% 4. Получение изменений из чистых репозирориев")
-  (format t "~& (mnas-git:command \"pull ~A master\" t)" remote-machine-name)
-  (format t "~&~% 4.1. Для каталога ~~/org в bash")
-  (format t "~&(mnas-git:sh-command \"cd ; cd org; git pull ~A master;\")" remote-machine-name)
+  (format t "~&(progn (mnas-git:command \"pull ~A master\" t)" remote-machine-name)
+  (format t "~&  (mnas-git:sh-command \"cd ; cd org; git pull ~A master;\"))" remote-machine-name)
 
   (format t "~&~% 5. Добавление, коммит и отправка изменений в чистый репозиторий")
-  (format t "~& (progn (mnas-git:command \"add *.lisp *.org *.asd\" t) 
-  (mnas-git:commit-a t)
-  (mnas-git:command \"push ~A master\" t))" *m-i*)
-  (format t "~&~% 5.1. Для каталога ~~/org в bash")
-  (format t "~&(mnas-git:sh-command \"cd ; cd org; find . -name \\\"*.org\\\" | xargs git add; git commit -m \\\"`date`\\\"; git push ~A master\")" *m-i*)
-  (format t "~&(mnas-git:sh-command \"cd ; cd org; find . -name \\\"*.trd\\\" | xargs git add; git commit -m \\\"`date`\\\"; git push ~A master\")" *m-i*)
+  (format t "~&(progn (mnas-git:command \"add *.lisp *.org *.asd\" t) (mnas-git:commit-a t) (mnas-git:command \"push ~A master\" t)" *m-i*)
+  (format t "~&  (mnas-git:sh-command \"cd ; cd org; find . -name \\\"*.org\\\" | xargs git add; git commit -m \\\"`date`\\\"; git push ~A master\")" *m-i*)
+  (format t "~&  (mnas-git:sh-command \"cd ; cd org; find . -name \\\"*.trd\\\" | xargs git add; git commit -m \\\"`date`\\\"; git push ~A master\"))" *m-i*)
 
   (format t "~&~% 6. Архивирование чистого репозитория:")
-  (format t "~& rm -rf ~Agit-~A.tar.xz" *git-bare-dir-win*  *m-i*)
-  (format t "~& cd ~A" *git-bare-dir-win*)
-  (format t "~& tar -cJf git-~A.tar.xz git-~A/" *m-i* *m-i*)
-  (format t "~& echo \"DONE\"")
+
+  (format t "~&(mnas-git:sh-command \"rm -rf ~Agit-~A.tar.xz; cd ~A; tar -cJf git-~A.tar.xz git-~A/; echo DONE;\")"
+	  *git-bare-dir-win*  *m-i* *git-bare-dir-win* *m-i* *m-i*)
 
   (format t "~&~% 7. Колнирование в чистый репозиторий")
   (format t "~&# (mnas-git:clone--bare t)")
