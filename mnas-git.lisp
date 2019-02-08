@@ -155,6 +155,17 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun sh-command (cmd-string &key (output t) (ignore-error-status t))
+  "Позволяет выполнить команды "
+  (uiop:run-program
+   (concatenate 'string "sh -c \"" cmd-string  "\"")
+   :output output
+   :ignore-error-status ignore-error-status))
+
+(sh-command "cd ; cd org; git pull MNASOFT-01 master;")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun clone--bare (&optional (os nil))
   "Для каждого репозитория, расположенного в каталоге *clisp-dir-win* текущей 
 машины *m-i*, создает список команд, который выполняет клонирование чистого 
@@ -344,15 +355,15 @@
   (format t "~&~% 4. Получение изменений из чистых репозирориев")
   (format t "~& (mnas-git:command \"pull ~A master\" t)" remote-machine-name)
   (format t "~&~% 4.1. Для каталога ~~/org в bash")
-  (format t "~&cd ; cd org; git pull ~A master;~%" remote-machine-name)
+  (format t "~&(mnas-git:sh-command \"cd ; cd org; git pull ~A master;\")" remote-machine-name)
 
   (format t "~&~% 5. Добавление, коммит и отправка изменений в чистый репозиторий")
   (format t "~& (progn (mnas-git:command \"add *.lisp *.org *.asd\" t) 
   (mnas-git:commit-a t)
   (mnas-git:command \"push ~A master\" t))" *m-i*)
   (format t "~&~% 5.1. Для каталога ~~/org в bash")
-  (format t "~&cd ; cd org; find . -name \"*.org\" | xargs git add; git commit -m \"`date`\"; git push ~A master" *m-i*)
-  (format t "~&cd ; cd org; find . -name \"*.trd\" | xargs git add; git commit -m \"`date`\"; git push ~A master" *m-i*)
+  (format t "~&(mnas-git:sh-command \"cd ; cd org; find . -name \\\"*.org\\\" | xargs git add; git commit -m \\\"`date`\\\"; git push ~A master\")" *m-i*)
+  (format t "~&(mnas-git:sh-command \"cd ; cd org; find . -name \\\"*.trd\\\" | xargs git add; git commit -m \\\"`date`\\\"; git push ~A master\")" *m-i*)
 
   (format t "~&~% 6. Архивирование чистого репозитория:")
   (format t "~& rm -rf ~Agit-~A.tar.xz" *git-bare-dir-win*  *m-i*)

@@ -5,6 +5,7 @@
 (defpackage #:mnas-git
   (:use #:cl #:mnas-string #:mnas-list #:mnas-path)
   (:export mnas-git::command
+	   mnas-git::sh-command
 	   mnas-git::init
 	   mnas-git::commit-a
 	   mnas-git::clone--bare
