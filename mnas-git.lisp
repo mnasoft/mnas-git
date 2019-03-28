@@ -355,11 +355,17 @@
   (format t "~&~% 4. Получение изменений из чистых репозирориев")
   (format t "~&(progn (mnas-git:command \"pull ~A master\" t)" remote-machine-name)
   (format t "~&  (mnas-git:sh-command \"cd ; cd org; git pull ~A master;\"))" remote-machine-name)
-
+  
+  (format t "~&  (mnas-git:sh-command \"cd ; cd elisp; git pull ~A master;\"))" remote-machine-name)
+  
   (format t "~&~% 5. Добавление, коммит и отправка изменений в чистый репозиторий")
-  (format t "~&(progn (mnas-git:command \"add *.lisp *.org *.asd\" t) (mnas-git:commit-a t) (mnas-git:command \"push ~A master\" t)" *m-i*)
-  (format t "~&  (mnas-git:sh-command \"cd ; cd org; find . -name \\\"*.org\\\" | xargs git add; git commit -m \\\"`date`\\\"; git push ~A master\")" *m-i*)
-  (format t "~&  (mnas-git:sh-command \"cd ; cd org; find . -name \\\"*.trd\\\" | xargs git add; git commit -m \\\"`date`\\\"; git push ~A master\"))" *m-i*)
+  (format t "~&(progn (mnas-git:command \"add *.lisp *.org *.asd\" t) (mnas-git:commit-a t) (mnas-git:command \"push ~A master\" t))" *m-i*)
+  
+  (format t "~&  cd; cd   org; find . -name \"*.org\" | xargs git add; git commit -m \"`date`\"; git push ~A master;" *m-i*)
+  (format t "~&  cd; cd   org; find . -name \"*.trd\" | xargs git add; git commit -m \"`date`\"; git push ~A master;" *m-i*)
+
+  (format t "~&  cd; cd elisp; find . -name \"*.org\" | xargs git add; git commit -m \"`date`\"; git push ~A master;" *m-i*)
+  (format t "~&  cd; cd elisp; find . -name \"*.el\"  | xargs git add; git commit -m \"`date`\"; git push ~A master;" *m-i*)
 
   (format t "~&~% 6. Архивирование чистого репозитория:")
 
