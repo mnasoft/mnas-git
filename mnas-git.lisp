@@ -354,8 +354,7 @@
 
   (format t "~&~% 4. Получение изменений из чистых репозирориев")
   (format t "~&(progn (mnas-git:command \"pull ~A master\" t)" remote-machine-name)
-  (format t "~&  (mnas-git:sh-command \"cd ; cd org; git pull ~A master;\"))" remote-machine-name)
-  
+  (format t "~&  (mnas-git:sh-command \"cd ; cd org; git pull ~A master;\")" remote-machine-name)
   (format t "~&  (mnas-git:sh-command \"cd ; cd elisp; git pull ~A master;\"))" remote-machine-name)
   
   (format t "~&~% 5. Добавление, коммит и отправка изменений в чистый репозиторий")
