@@ -1,11 +1,54 @@
-This is the stub README.txt for the "mnas-git" project.
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t broken-links:nil c:nil creator:nil
+#+OPTIONS: d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:t
+#+OPTIONS: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t
+#+OPTIONS: timestamp:t title:t toc:t todo:t |:t
+#+TITLE: Mnas-Git
+#+DATE: <2019-03-30 Сб>
+#+AUTHOR: Nick Matvyeyev
+#+EMAIL: mnasoft@gmail.com
+#+LANGUAGE: ru
+#+SELECT_TAGS: export
+#+EXCLUDE_TAGS: noexport
+#+CREATOR: Emacs 26.1 (Org mode 9.1.9)
 
-* Задачи                               
- - [ ] Добавить каталог [[~/elisp]] для синхронизации
- - [ ] Переоформить вывод 
+Mnas-Git. Проект предназначен для безсетевого способа синхронизации проектов Common Lisp между различными персональными компьютерами.
+
+* Файлы проекта
+
+#+BEGIN_SRC shell :exports results
+for i in `ls ./*.lisp`
+do
+echo "[[${i}]]"
+done 
+#+END_SRC
+
+#+RESULTS:
+| [[file:./mnas-git.lisp]]      |
+| [[file:./mnas-git-test.lisp]] |
+| [[file:./mnas-git-vars.lisp]] |
+| [[file:./package.lisp]]       |
+
+* Экспортируемые функции проекта Mnas-Git
+
+#+BEGIN_SRC lisp :exports results
+  (labels (( str-or-not (x) (if (stringp x) x "-")))
+    (mapcar
+     #'(lambda (el)
+	 (list el (mnas-string:string-replace-all
+		   (str-or-not (documentation el 'function)) (format nil "~%") "; ")))
+     '(mgit:clone--bare
+       mgit:clone--origin
+       mgit:command mgit:commit-a
+       mgit:help
+       mgit:init mgit:man
+       mgit:remote-readd
+       mgit:sh-command)))
+#+END_SRC
+
 
 * Примеры использования git                    
-** Экспорт изменений в удаленные калалоги       
+** Экспорт изменений в удаленные калалоги      
  #+BEGIN_SRC shell
  for i in cl.net github.com gitlab.com ; do git push $i master; done
  #+END_SRC
@@ -80,3 +123,9 @@ This is the stub README.txt for the "mnas-git" project.
   echo '*.lsp text eol=crlf' >>.gitignore
   echo '*.mnl  text eol=crlf' >>.gitignore
 #+END_SRC
+
+* Что сделать
+** DONE Добавить каталог [[~/elisp]] для синхронизации.
+** DONE Функция help
+Переоформить вывод функции help в части:
+- устранения ошибок при выполнении динных команд git, выполняемых из common lisp;
