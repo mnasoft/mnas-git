@@ -5,8 +5,7 @@
   :author "Nick Matvyeyev <mnasoft@gmail.com>"
   :license "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 or later"  
   :serial t
-  :depends-on (#:cl-fad #:mnas-string #:mnas-list #:mnas-path) ;; 
+  :depends-on (#:cl-fad #:mnas-string #:mnas-list #:mnas-path #:mnas-file-dialog) ;; 
   :components ((:file "package")
 	       (:file "mnas-git-vars")
                (:file "mnas-git")))
-

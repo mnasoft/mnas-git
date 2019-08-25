@@ -31,21 +31,43 @@ done
 
 * Экспортируемые функции проекта Mnas-Git
 
+#+name: function-doc
 #+BEGIN_SRC lisp :exports results
-  (labels (( str-or-not (x) (if (stringp x) x "-")))
-    (mapcar
-     #'(lambda (el)
-	 (list el (mnas-string:string-replace-all
-		   (str-or-not (documentation el 'function)) (format nil "~%") "; ")))
-     '(mgit:clone--bare
-       mgit:clone--origin
-       mgit:command mgit:commit-a
-       mgit:help
-       mgit:init mgit:man
-       mgit:remote-readd
-       mgit:sh-command)))
+    (labels (( str-or-not (x) (if (stringp x) x "-")))
+      (mapcar
+       #'(lambda (el)
+	   (list el (mnas-string:string-replace-all
+		     (str-or-not (documentation el 'function)) (format nil "~%") "; ")))
+       '(mgit:clone--bare
+	 mgit:clone--origin
+	 mgit:command mgit:commit-a
+	 mgit:help
+	 mgit:init mgit:man
+	 mgit:remote-readd
+	 mgit:sh-command
+	 mgit:dialog-remote-readd)))
 #+END_SRC
 
+#+RESULTS: function-doc
+| MNAS-GIT:CLONE--BARE         | Для каждого репозитория, расположенного в каталоге *clisp-dir-win* текущей ; машины *m-i*, создает список команд, который выполняет клонирование чистого ; репозитория в каталог (concatenate 'string *git-bare-dir* "git-" *m-i*); ; После создания таким образом каталога с чистыми репозиториями его можно; перенести на другую машину для выполнения слияния.; ;    Если опциональный параметр os имеет значение nil,; вывод функции направляется на стандартный вывод при этом функция возврвщает t,; иначе -- вывод направляется в командный файл и затем этот выполняется при этом ; функция возврвшает путь к командному файлу и результат выполнения командного файла;;   Пример использования:; ;;;;(clone--bare); ;;;;(clone--bare t);   Рекоемндации:;   Перед выполнением даной функции следует удалить соответствующий ; каталог:  (concatenate 'string *git-bare-dir* "git-" *m-i*),; содержащий чистые репозитории; |
+| MNAS-GIT:CLONE--ORIGIN       | Генерирует сценарий, который выполяет клонирование чистых из репозиториев, для которых ; в каталоге с проектами не нашлось соответствующего проекта,; во виз расположения origin ; ;;;;(clone--origin "mnasoft-00");                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| MNAS-GIT:COMMAND             | Для каждого репозитория, расположенного в каталоге *clisp-dir-win* текущей ; машины *m-i*, генерирует сценарий, выполняющий команду git-command.; ;    Если опциональный параметр os имеет значение nil,; вывод функции направляется на стандартный вывод при этом функция возврвщает t,; иначе -- вывод направляется в командный файл и затем этот выполняется при этом ; функция возврвшает путь к командному файлу и результат выполнения командного файла.; ; Пример использования:; ;;;;(command  "git remote remove other"); ;;;;(command  "git remote remove other" t);                                                                                                                                                                                                                                                                                                                                                      |
+| MNAS-GIT:COMMIT-A            | Для каждого репозитория, расположенного в каталоге *clisp-dir-win* ; текущей машины *m-i*, генерирует сценарий, выполняющий команду git commit -a.; ; В качестве комментария используется строка предтвляющая,; значение текущей даты и времени.; ; Примеры использования:; ; @begin[lang=lisp](code);  (commit-a); @end(code); ; @begin[lang=lisp](code);  (commit-a t); @end(code); ; @begin[path=sin-cos.png](gnuplot); @begin(verb); plot sin(x), cos(x); @end(verb); @end(gnuplot); ;                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| MNAS-GIT:HELP                | Формирует подсказку с вариантами использования                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| MNAS-GIT:INIT                | Генерирует bash-сценарий, инициализирующий git репозитории.; ; Примеры использования:;  @begin[lang=lisp](code);   (init); ;   (init t);  @end(code); ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| MNAS-GIT:MAN                 | Формирует строку, содержащую подсказку.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| MNAS-GIT:REMOTE-READD        | Для каждого репозитория расположенного в каталоге *clisp-dir-win* создает список команд, который выполняет:; @begin(list); @item(отсоединение от внешних репозиториев (список *m-l*), которые для данной машины *m-i* вожможно имеют неправильное расположение;); @item(присоединение к внешним репозиториям (список *m-l*), которые для данной машины *m-i* должны иметь правильное расположение;); @end(list);    Если опциональный параметр os имеет значение nil,; вывод функции направляется на стандартный вывод при этом функция возврвщает t,; иначе - вывод направляется в командный файл и затем этот выполняется при этом ; функция возврвшает путь к командному файлу и результат выполнения командного файла.; ;    Пример использования:;  @begin[lang=lisp](code);  (prong;   (remote-readd);   (remote-readd t));  @end(code); ;    Рекомендации:; ;    Следует выполнять данную функцию ...;                       |
+| MNAS-GIT:SH-COMMAND          | Позволяет выполнить команды                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| MNAS-GIT:DIALOG-REMOTE-READD | Выполняет диалог для указания каталога, в котором находится репозиторий git, ; для пересоздания удаленных репозиториев. ; ; Пример использования:;  @begin[lang=lisp](code);   (dialog-remote-readd);  @end(code); ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+
+* Генерирование документации 
+
+#+BEGIN_SRC lisp
+ (codex:document :mnas-git)
+#+END_SRC
+
+#+RESULTS:
+: NIL
 
 * Примеры использования git                    
 ** Экспорт изменений в удаленные калалоги      
@@ -125,10 +147,6 @@ done
 #+END_SRC
 
 * Что сделать
-** DONE Добавить каталог [[~/elisp]] для синхронизации.
-** DONE Функция help
-Переоформить вывод функции help в части:
-- устранения ошибок при выполнении динных команд git, выполняемых из common lisp;
 * BASH pull
 
 #+BEGIN_SRC sh

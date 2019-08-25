@@ -18,17 +18,29 @@
      (list "N118389"       (concatenate 'string "/home/" *user* "/git--bare/")  (concatenate 'string "/home/" *user* "/quicklisp/local-projects/")              "C:/msys32")
 ;;;; (list "hp1.zorya.com" "/_storage/otd11/namatv/develop/"  "/_storage/otd11/namatv/develop/git/clisp/"           "/_storage/otd11/namatv/develop/git/clisp/")
      )
-    "    Список каждым элементом которого является список, 
+    "Список каждым элементом которого является список, 
 относящийся к определенному хосту, состоящий из:
-1 - имени хоста;
-2 - имени каталога, в котором находятся:
-- чистые репозитории git;
-- архивы чистых репозиториев git;
-3 - имени каталога в котором находятся исходные файлы проектов common lisp;
-4 - путь к каталогу MSYS2 для os Windows.
-    На основе этой переменной для конкретного хоста формируются переменные:
-*m-l* , *git-bare-dir* , *clisp-dir* , *root-prefix* , *clisp-dir-win* , *git-bare-dir-win*
-    Более в дальнейших вычислениях она не участвует")
+@begin(enum)
+@item(имени хоста;)
+@item(имени каталога, в котором находятся:
+
+  - чистые репозитории git;
+
+  - архивы чистых репозиториев git;
+)
+@item(имени каталога в котором находятся исходные файлы проектов common lisp;)
+@item(путь к каталогу MSYS2 для os Windows.)
+@end(enum)
+ На основе этой переменной для конкретного хоста формируются переменные:
+@begin(list)
+ @item(*m-l*;)
+ @item(*git-bare-dir*;)
+ @item(*clisp-dir*;)
+ @item(*root-prefix*;)
+ @item(*clisp-dir-win*;)
+ @item(*git-bare-dir-win*.)
+@end(list)
+ Более в дальнейших вычислениях она не участвует. ")
 
   (defparameter *m-i* (machine-instance)
     "Имя хоста")
@@ -53,6 +65,8 @@
   (defparameter *git-bare-dir-win*
     (concatenate 'string *root-prefix* *git-bare-dir*)
     "Имя каталога, в котором находятся:
-- чистые репозитории git;
-- архивы чистых репозиториев git.
+@begin(list)
+ @item(чистые репозитории git;)
+ @item(архивы чистых репозиториев git.)
+@end(list)
 Пути как в Windows")) 
