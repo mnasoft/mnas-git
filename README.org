@@ -284,3 +284,15 @@ done
 | Уже | обновлено. |
 | Уже | обновлено. |
 
+* Настройка удаленного πι репозитория
+#+BEGIN_SRC shell
+cd;
+for i in `find /home/namatv/quicklisp/local-projects/ . -name ".git"`
+do 
+cd $i/..;
+echo $PWD; 
+git remote remove pi; 
+git remote add pi git@141.101.26.243:/opt/git/`basename $PWD`.git; 
+done
+#+END_SRC
+
