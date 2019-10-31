@@ -285,14 +285,431 @@ done
 | Уже | обновлено. |
 
 * Настройка удаленного πι репозитория
+
 #+BEGIN_SRC shell
 cd;
+#PI="141.101.26.243"
+PI="pi"
 for i in `find /home/namatv/quicklisp/local-projects/ . -name ".git"`
 do 
 cd $i/..;
 echo $PWD; 
 git remote remove pi; 
-git remote add pi git@141.101.26.243:/opt/git/`basename $PWD`.git; 
+git remote add pi git@$PI:/opt/git/`basename $PWD`.git; 
 done
 #+END_SRC
 
+#+RESULTS:
+| /home/namatv/quicklisp/local-projects/ltk/enter-box                                  |
+| /home/namatv/quicklisp/local-projects/ltk/ltk-exel-lines                             |
+| /home/namatv/quicklisp/local-projects/ltk/project-loader                             |
+| /home/namatv/quicklisp/local-projects/ltk/ltk-sample                                 |
+| /home/namatv/quicklisp/local-projects/ltk/mnas-file-dialog                           |
+| /home/namatv/quicklisp/local-projects/ltk/dimensional-chain                          |
+| /home/namatv/quicklisp/local-projects/ost/ost-1-00022-80                             |
+| /home/namatv/quicklisp/local-projects/_gtd_009                                       |
+| /home/namatv/quicklisp/local-projects/emacs-setup                                    |
+| /home/namatv/quicklisp/local-projects/msys2-setup                                    |
+| /home/namatv/quicklisp/local-projects/gost/gost-7805-70                              |
+| /home/namatv/quicklisp/local-projects/gost/gost-25346                                |
+| /home/namatv/quicklisp/local-projects/gost/gost-16047-70                             |
+| /home/namatv/quicklisp/local-projects/gost/gost-28759-3-90                           |
+| /home/namatv/quicklisp/local-projects/gost/gost-16045-70                             |
+| /home/namatv/quicklisp/local-projects/gost/piping                                    |
+| /home/namatv/quicklisp/local-projects/gost/gost-5927-70                              |
+| /home/namatv/quicklisp/local-projects/gost/gost-16043-70                             |
+| /home/namatv/quicklisp/local-projects/gost/gost-23518-79                             |
+| /home/namatv/quicklisp/local-projects/gost/gost-16048-70                             |
+| /home/namatv/quicklisp/local-projects/gost/gost-12821-80                             |
+| /home/namatv/quicklisp/local-projects/gost/gost-8-064-79                             |
+| /home/namatv/quicklisp/local-projects/gost/gost-6533-78                              |
+| /home/namatv/quicklisp/local-projects/qt/qt-spring-dialog                            |
+| /home/namatv/quicklisp/local-projects/qt/qtools-intro                                |
+| /home/namatv/quicklisp/local-projects/qt/qt-conv                                     |
+| /home/namatv/quicklisp/local-projects/qt/sample-01                                   |
+| /home/namatv/quicklisp/local-projects/qt/conv                                        |
+| /home/namatv/quicklisp/local-projects/fork/xmls                                      |
+| /home/namatv/quicklisp/local-projects/fork/xlsx                                      |
+| /home/namatv/quicklisp/local-projects/fork/ie3fp-20101006-http                       |
+| /home/namatv/quicklisp/local-projects/code-wars/pangramm                             |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-logical                              |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-heat-transfer                        |
+| /home/namatv/quicklisp/local-projects/mnas/ost                                       |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-defclass                             |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-dim-value                            |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-systems                              |
+| /home/namatv/quicklisp/local-projects/mnas/exel-read                                 |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-string                               |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-spring                               |
+| /home/namatv/quicklisp/local-projects/mnas/site/mnas-passwd                          |
+| /home/namatv/quicklisp/local-projects/mnas/site/mnas-site-template                   |
+| /home/namatv/quicklisp/local-projects/mnas/site/mnas-site-control                    |
+| /home/namatv/quicklisp/local-projects/mnas/site/mnas-site                            |
+| /home/namatv/quicklisp/local-projects/mnas/site/pages/radio-channels                 |
+| /home/namatv/quicklisp/local-projects/mnas/site/pages/adiabatic-temperature          |
+| /home/namatv/quicklisp/local-projects/mnas/site/pages/site-areas                     |
+| /home/namatv/quicklisp/local-projects/mnas/site/pages/page-gost-28759-3-90           |
+| /home/namatv/quicklisp/local-projects/mnas/site/pages/mnas-vse-gost                  |
+| /home/namatv/quicklisp/local-projects/mnas/site/pages/ecology                        |
+| /home/namatv/quicklisp/local-projects/mnas/site/pages/dictionary                     |
+| /home/namatv/quicklisp/local-projects/mnas/site/pages/dep11-report                   |
+| /home/namatv/quicklisp/local-projects/mnas/site/mnas-site-route                      |
+| /home/namatv/quicklisp/local-projects/mnas/site/mnas-dns                             |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-graph                                |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-list                                 |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-path                                 |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-git                                  |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-format                               |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-org-mode                             |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-xlsx                                 |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-package                              |
+| /home/namatv/quicklisp/local-projects/mnas/mnas-hash-table                           |
+| /home/namatv/quicklisp/local-projects/_temp/others/qtools/examples/qtools-helloworld |
+| /home/namatv/quicklisp/local-projects/_temp/others/emacs_slime_asdf_setup_instr      |
+| /home/namatv/quicklisp/local-projects/_temp/others/qt/qt-kepler                      |
+| /home/namatv/quicklisp/local-projects/_temp/others/threads-test                      |
+| /home/namatv/quicklisp/local-projects/_temp/embeddable-maxima/share/numeric          |
+| /home/namatv/quicklisp/local-projects/_temp/embeddable-maxima                        |
+| /home/namatv/quicklisp/local-projects/ZM/icacls                                      |
+| /home/namatv/quicklisp/local-projects/ZM/dep-stuff                                   |
+| /home/namatv/quicklisp/local-projects/ZM/ts-102-102-2017                             |
+| /home/namatv/quicklisp/local-projects/ZM/material                                    |
+| /home/namatv/quicklisp/local-projects/ZM/smog                                        |
+| /home/namatv/quicklisp/local-projects/ZM/v7t90108200d3                               |
+| /home/namatv/quicklisp/local-projects/ZM/dt59-dym                                    |
+| /home/namatv/quicklisp/local-projects/ZM/tt                                          |
+| /home/namatv/quicklisp/local-projects/ZM/t90                                         |
+| /home/namatv/quicklisp/local-projects/ZM/n70                                         |
+| /home/namatv/quicklisp/local-projects/ZM/t90_klapan_22                               |
+| /home/namatv/quicklisp/local-projects/ZM/dg80l3-dg80l4                               |
+| /home/namatv/quicklisp/local-projects/ZM/dm80_dg80l3                                 |
+| /home/namatv/quicklisp/local-projects/ZM/plan                                        |
+| /home/namatv/quicklisp/local-projects/ZM/ugt5000_dual                                |
+| /home/namatv/quicklisp/local-projects/ZM/temperature-fild                            |
+| /home/namatv/quicklisp/local-projects/ZM/da32                                        |
+| /home/namatv/quicklisp/local-projects/ZM/PM/pm-170-algorithm                         |
+| /home/namatv/quicklisp/local-projects/ZM/PM/pm-014038001                             |
+| /home/namatv/quicklisp/local-projects/ZM/PM/pm-218                                   |
+| /home/namatv/quicklisp/local-projects/ZM/PM/pm-170                                   |
+| /home/namatv/quicklisp/local-projects/ZM/PM/pm-171                                   |
+| /home/namatv/quicklisp/local-projects/ZM/PM/pm-237-algorithm                         |
+| /home/namatv/quicklisp/local-projects/ZM/PM/pm-223                                   |
+| /home/namatv/quicklisp/local-projects/ZM/ks                                          |
+| /home/namatv/quicklisp/local-projects/ZM/889038004                                   |
+| /home/namatv/quicklisp/local-projects/ZM/soplo-hvg                                   |
+| /home/namatv/quicklisp/local-projects/ZM/t71                                         |
+| /home/namatv/quicklisp/local-projects/ZM/ts-gaki-102-024-2018                        |
+| /home/namatv/quicklisp/local-projects/ZM/ot-234pm                                    |
+| /home/namatv/quicklisp/local-projects/ZM/dg80l3_dogimnoy                             |
+| /home/namatv/quicklisp/local-projects/ZM/calendar                                    |
+| /home/namatv/quicklisp/local-projects/ZM/M7N_1E                                      |
+| /home/namatv/quicklisp/local-projects/clisp/gnuplot                                  |
+| /home/namatv/quicklisp/local-projects/clisp/algorithm                                |
+| /home/namatv/quicklisp/local-projects/clisp/idelchik                                 |
+| /home/namatv/quicklisp/local-projects/clisp/ffmpeg                                   |
+| /home/namatv/quicklisp/local-projects/clisp/instrument                               |
+| /home/namatv/quicklisp/local-projects/clisp/radio-grab-split                         |
+| /home/namatv/quicklisp/local-projects/clisp/areas                                    |
+| /home/namatv/quicklisp/local-projects/clisp/varghaftik                               |
+| /home/namatv/quicklisp/local-projects/clisp/fors-lic                                 |
+| /home/namatv/quicklisp/local-projects/clisp/html-table                               |
+| /home/namatv/quicklisp/local-projects/clisp/specification                            |
+| /home/namatv/quicklisp/local-projects/clisp/recoder                                  |
+| /home/namatv/quicklisp/local-projects/clisp/trender                                  |
+| /home/namatv/quicklisp/local-projects/clisp/gases/gases                              |
+| /home/namatv/quicklisp/local-projects/clisp/pcl-test                                 |
+| /home/namatv/quicklisp/local-projects/clisp/vse-gost                                 |
+| /home/namatv/quicklisp/local-projects/clisp/slad                                     |
+| /home/namatv/quicklisp/local-projects/clisp/time                                     |
+| /home/namatv/quicklisp/local-projects/clisp/experiment-data                          |
+| /home/namatv/quicklisp/local-projects/clisp/lst-arr                                  |
+| /home/namatv/quicklisp/local-projects/clisp/math                                     |
+| /home/namatv/quicklisp/local-projects/clisp/half-div                                 |
+| /home/namatv/quicklisp/local-projects/clisp/ecl/ecl_qt                               |
+| /home/namatv/quicklisp/local-projects/clisp/dims                                     |
+| /home/namatv/quicklisp/local-projects/clisp/convertion                               |
+| /home/namatv/quicklisp/local-projects/clisp/windows-regystry                         |
+| /home/namatv/quicklisp/local-projects/acad/acad-formats                              |
+| /home/namatv/quicklisp/local-projects/acad/vlisp                                     |
+| /home/namatv/quicklisp/local-projects/acad/dwg-geom                                  |
+| /home/namatv/quicklisp/local-projects/acad/hpgl                                      |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+| /home/namatv/quicklisp/local-projects/acad/dxf                                       |
+
+* Работа с удаленными репозирориями
+** pull
+
+#+BEGIN_SRC shell
+cd;
+#PI="141.101.26.243"
+PI="pi"
+for i in `find /home/namatv/quicklisp/local-projects/ . -name ".git"`
+do 
+cd $i/..;
+echo $PWD; 
+git pull $PI master;
+done
+#+END_SRC
+
+** push
+#+BEGIN_SRC shell
+cd;
+#PI="141.101.26.243"
+PI="pi"
+for i in `find /home/namatv/quicklisp/local-projects/ . -name ".git"`
+do 
+cd $i/..;
+echo $PWD; 
+git push $PI master;
+done
+#+END_SRC
