@@ -1,0 +1,41 @@
+@begin(section)
+@title(Overview)
+
+Проект предназначен для безсетевого способа синхронизации проектов Common Lisp между
+различными персональными компьютерами.
+
+@end(section)
+
+@begin(section)
+@title(Variables)
+
+@cl:with-package[name="mnas-git"](
+@cl:doc(variable *mahine-git_dir-clisp_dir*)
+@cl:doc(variable *m-i*)
+)
+
+@end(section)
+
+@begin(section)
+@title(Functions)
+
+@cl:with-package[name="mnas-git"](
+@cl:doc(function init)
+@cl:doc(function commit-a)
+@cl:doc(function clone--bare)
+@cl:doc(function clone--origin)
+@cl:doc(function command)
+@cl:doc(function dialog-remote-readd)
+@cl:doc(function help)
+
+@cl:doc(function remote-readd)
+@cl:doc(function sh-command)
+@cl:doc(function man)
+
+@cl:doc(function find-filenames)
+
+)
+
+@end(section)
+
+
