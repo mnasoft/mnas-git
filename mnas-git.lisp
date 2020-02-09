@@ -48,7 +48,7 @@
  (find-filenames-directory *clisp-dir-win* \"*.lisp\")
 @end(code)
 "
-  (unique
+  (delete-duplicates
    (mapcar
     #'(lambda (el)
 	(make-pathname
