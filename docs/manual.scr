@@ -38,4 +38,11 @@
 
 @end(section)
 
-
+@begin(section)
+@title(Gnuplot)
+@begin[path=sin-cos.png](gnuplot)
+@begin(verb)
+plot 100*sin(x), 100*cos(x), x*x
+@end(verb)
+@end(gnuplot)
+@end(section)
