@@ -2,8 +2,6 @@
 
 (in-package #:mnas-git)
 
-(annot:enable-annot-syntax)
-
 (defun cd-path (path &optional (os t))
   (if (eq os t)
       (format os "~%cd ~A~%" path)
@@ -79,8 +77,8 @@
     (set-difference asd-dirs git-dirs :test #'pathname-match-p)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-@export
-@annot.doc:doc
+(export 'init)
+(defun init( &optional (os nil))
 "@b(Описание:) init генерирует bash-сценарий, инициализирующий git репозитории.
 
  @b(Пример использования:)
@@ -89,7 +87,6 @@
   (init t)
  @end(code)
 "
-(defun init( &optional (os nil))
   (labels ((make-init-non-git-repo (path &optional (os t))
 	     (cd-path path os)
 	     (format os "git init~%"))
@@ -109,8 +106,8 @@
 	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-@export
-@annot.doc:doc
+(export 'commit-a )
+(defun commit-a (&optional (os nil))
 "@b(Описание:) commit-a для каждого репозитория, расположенного в каталоге 
 *clisp-dir-win* текущей машины *m-i*, генерирует сценарий, выполняющий 
 команду git commit -a.
@@ -124,7 +121,6 @@
  (commit-a t)
 @end(code)
 "
-(defun commit-a (&optional (os nil))
   (format t "mnas-git:commit-a ...Start...~%" ) 
   (labels ((commit-a (path &optional (os t))
 	     (cd-path path os)
@@ -143,8 +139,8 @@
 	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-@export
-@annot.doc:doc
+(export 'command )
+(defun command (command &optional (os nil))
 "@b(Описание:) command для каждого репозитория, расположенного в каталоге
 *clisp-dir-win* текущей машины *m-i*, генерирует сценарий, выполняющий команду
 git-command.
@@ -160,7 +156,6 @@ git-command.
  (command  \"git remote remove other\" t)
 @end(code)
 "
-(defun command (command &optional (os nil))
   (format t "mnas-git:command ~A ...Start...~%" command) 
   (let ((git-command (concatenate 'string "git" " " command)))
     (labels (
@@ -182,10 +177,9 @@ git-command.
 	      (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-@export
-@annot.doc:doc
-"@b(Описание:) sh-command позволяет выполнить команды."
+(export 'sh-command )
 (defun sh-command (cmd-string &key (output t) (ignore-error-status t))
+"@b(Описание:) sh-command позволяет выполнить команды."
   (uiop:run-program
    (concatenate 'string "sh -c \"" cmd-string  "\"")
    :output output
@@ -195,8 +189,8 @@ git-command.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-@export
-@annot.doc:doc
+(export 'clone--bare )
+(defun clone--bare (&optional (os nil))
 "@b(Описание:) clone--bare для каждого репозитория, расположенного в каталоге 
 *clisp-dir-win* текущей машины *m-i*, создает список команд, который выполняет
 клонирование чистого репозитория в каталог (concatenate 'string *git-bare-dir*
@@ -227,7 +221,6 @@ git-command.
  (concatenate 'string *git-bare-dir* \"git-\" *m-i*)
 @end(code)
 "
-(defun clone--bare (&optional (os nil))
   (format t "mnas-git:clone--bare ...Start...~%") 
   (flet ((func (os) 
 	   (mapcar 
@@ -260,8 +253,8 @@ git-command.
        (readd-single-path-mashine path mi os))
    mashines))
 
-@export
-@annot.doc:doc
+(export 'dialog-remote-readd )
+(defun dialog-remote-readd (&optional (initialdir "~/quicklisp/local-projects"))
 "@b(Описание:) dialog-remote-readd выполняет диалог для указания каталога, 
 в котором находится репозиторий git, для пересоздания удаленных репозиториев. 
 
@@ -270,14 +263,13 @@ git-command.
   (dialog-remote-readd)
 @end(code)
 "
-(defun dialog-remote-readd (&optional (initialdir "~/quicklisp/local-projects"))
   (let ((dir (mnas-file-dialog:choose-directory :initialdir initialdir)))
     (when (string/= dir "")
       (readd-single-path-mashines dir))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-@export
-@annot.doc:doc
+(export 'remote-readd )
+(defun remote-readd (&optional (os nil))
 "@b(Описание:) remote-readd для каждого репозитория расположенного в каталоге 
 *clisp-dir-win* создает список команд, который выполняет:
 @begin(list)
@@ -299,7 +291,6 @@ git-command.
  Рекомендации:
  Следует выполнять данную функцию ...
 "
-(defun remote-readd (&optional (os nil))
   (flet ((func (os) 
 	   (mapcar 
 	    #'(lambda (mi)
@@ -323,8 +314,8 @@ git-command.
 		    (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-@export
-@annot.doc:doc
+(export 'clone--origin )
+(defun clone--origin (origin)
 "@b(Описание:) clone--origin генерирует сценарий, который выполяет клонирование 
 чистых из репозиториев, для которых в каталоге с проектами не нашлось 
 соответствующего проекта, в калалоге для удаленной машины origin.
@@ -334,7 +325,6 @@ git-command.
  (clone--origin \"mnasoft-00\")
 @end(code)
 "
-(defun clone--origin (origin)
   (let (
 	(b-r (cl-fad:list-directory (concatenate 'string *git-bare-dir-win* "git-" origin )))
 ;;;;	(b-r (cl-fad:list-directory (concatenate 'string *git-bare-dir* "git-" origin )))
@@ -372,10 +362,9 @@ git-command.
     (print-list *m-l*)
     (format t "~&Введите число, соответствующее удалённой (remote) машине:")))
 
-@export
-@annot.doc:doc
-"Формирует строку, содержащую подсказку."
+(export 'man )
 (defun man ()
+"Формирует строку, содержащую подсказку."
   (write-line
    "  MNAS-GIT - проект предназначен для несетевого способа синхроизации репозиториев git;
   Функции, выполняющие формирование сценариев коммандной оболочки для управления репозиториями git 
@@ -420,10 +409,9 @@ git-command.
 |---------------+--------------+------------------------------------------------------------------|
 "))
 
-@export
-@annot.doc:doc
-"@b(Описание:) help формирует подсказку с вариантами использования"
+(export 'help )
 (defun help (&optional (remote-machine-name (command-machine)))
+"@b(Описание:) help формирует подсказку с вариантами использования"
   (format t "Имя этой машины                         : ~A~%" *m-i*)
   (format t "Имя удалённой (remote) машины           : ~A~%" remote-machine-name)
   (format t "Список удаленных чистых git-репозиториев: ~A~%" *m-l*)
