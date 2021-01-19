@@ -166,8 +166,8 @@ git-command.
 	       (mapcar #'(lambda (el) (git-script el git-command os))
 		       (find-filenames-directory-clisp-git))))
       (let (
-;;;;	    (f-name (concatenate 'string *git-bare-dir-win* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
-	    (f-name (concatenate 'string *clisp-dir-win* (string-replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
+;;;;	    (f-name (concatenate 'string *git-bare-dir-win* (mnas-string:replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
+	    (f-name (concatenate 'string *clisp-dir-win* (mnas-string:replace-all (string-replace-all git-command " " "-") "*" "all")  ".sh"))
 	    )
 	(if (null os)
 	    (progn (func t) t)
