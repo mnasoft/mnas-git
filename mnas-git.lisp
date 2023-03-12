@@ -1,6 +1,6 @@
 ;;;; mnas-git.lisp
 
-(in-package #:mnas-git)
+(in-package :mnas-git)
 
 (defun cd-path (path &optional (os t))
   (if (eq os t)

@@ -1,6 +1,6 @@
 ;;;; mnas-git-test.lisp
 
-(in-package #:mnas-git)
+(in-package :mnas-git)
 
 ;;; "mnas-git" goes here. Hacks and glory await!
 
