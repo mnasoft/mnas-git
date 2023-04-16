@@ -2,9 +2,10 @@
 
 (defpackage :mnas-git
   (:documentation
-   "Mnas-Git. Проект предназначен для безсетевого способа
+   "
+   @b(Описание:) проект @b(Mnas-Git) предназначен для безсетевого способа
   синхронизации проектов Common Lisp между различными персональными
-  компьютерами.")
+  компьютерами")
   (:nicknames "MGIT")
   (:use #:cl #:mnas-string #:mnas-path)
   (:export init
@@ -17,7 +18,8 @@
            clone--origin 
            man 
            help)
-  (:export invoke-git))
+  (:export invoke-git
+           *mnasoft-git*))
 
 
 (in-package :mnas-git)
