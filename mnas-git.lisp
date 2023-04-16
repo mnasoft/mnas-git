@@ -492,4 +492,4 @@ git-command.
     (sb-ext:run-program "/usr/bin/git" command
                         :directory (concatenate 'string start-dir directory)
                         :output s-stream)
-    (get-output-stream-string s-stream))))
+    (format t "~A" (get-output-stream-string s-stream)))))
