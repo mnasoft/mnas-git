@@ -77,7 +77,7 @@
     (set-difference asd-dirs git-dirs :test #'pathname-match-p)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(export 'init)
+
 (defun init( &optional (os nil))
 "@b(Описание:) init генерирует bash-сценарий, инициализирующий git репозитории.
 
@@ -106,7 +106,7 @@
 	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(export 'commit-a )
+
 (defun commit-a (&optional (os nil))
 "@b(Описание:) commit-a для каждого репозитория, расположенного в каталоге 
 *clisp-dir-win* текущей машины *m-i*, генерирует сценарий, выполняющий 
@@ -139,7 +139,7 @@
 	    (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(export 'command )
+
 (defun command (command &optional (os nil))
 "@b(Описание:) command для каждого репозитория, расположенного в каталоге
 *clisp-dir-win* текущей машины *m-i*, генерирует сценарий, выполняющий команду
@@ -177,7 +177,7 @@ git-command.
 	      (values f-name (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t))))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(export 'sh-command )
+
 (defun sh-command (cmd-string &key (output t) (ignore-error-status t))
 "@b(Описание:) sh-command позволяет выполнить команды."
   (uiop:run-program
@@ -189,7 +189,7 @@ git-command.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(export 'clone--bare )
+
 (defun clone--bare (&optional (os nil))
 "@b(Описание:) clone--bare для каждого репозитория, расположенного в каталоге 
 *clisp-dir-win* текущей машины *m-i*, создает список команд, который выполняет
@@ -253,7 +253,7 @@ git-command.
        (readd-single-path-mashine path mi os))
    mashines))
 
-(export 'dialog-remote-readd )
+
 (defun dialog-remote-readd (&optional (initialdir "~/quicklisp/local-projects"))
 "@b(Описание:) dialog-remote-readd выполняет диалог для указания каталога, 
 в котором находится репозиторий git, для пересоздания удаленных репозиториев. 
@@ -268,7 +268,7 @@ git-command.
       (readd-single-path-mashines dir))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(export 'remote-readd )
+
 (defun remote-readd (&optional (os nil))
 "@b(Описание:) remote-readd для каждого репозитория расположенного в каталоге 
 *clisp-dir-win* создает список команд, который выполняет:
@@ -314,7 +314,7 @@ git-command.
 		    (uiop:run-program (concatenate 'string "sh" " " f-name) :ignore-error-status t)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(export 'clone--origin )
+
 (defun clone--origin (origin)
 "@b(Описание:) clone--origin генерирует сценарий, который выполяет клонирование 
 чистых из репозиториев, для которых в каталоге с проектами не нашлось 
@@ -362,7 +362,7 @@ git-command.
     (print-list *m-l*)
     (format t "~&Введите число, соответствующее удалённой (remote) машине:")))
 
-(export 'man )
+
 (defun man ()
 "Формирует строку, содержащую подсказку."
   (write-line
@@ -409,7 +409,7 @@ git-command.
 |---------------+--------------+------------------------------------------------------------------|
 "))
 
-(export 'help )
+
 (defun help (&optional (remote-machine-name (command-machine)))
 "@b(Описание:) help формирует подсказку с вариантами использования"
   (format t "Имя этой машины                         : ~A~%" *m-i*)
@@ -461,3 +461,35 @@ git-command.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (format t "(mnas-git:help)")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun invoke-git (repo-name start-dir command)
+  "
+ @b(Пример использования:)
+@begin[lang=lisp](code)
+ (invoke-git \"mnas-spring\"
+             \"/home/namatv/quicklisp/local-projects/\" command
+             (list \"tree\" \"readd\" \"gh\"))
+@end(code)
+"
+  (let* ((s-stream (make-string-output-stream))
+         (directory 
+           (progn
+             (sb-ext:run-program "/usr/bin/find"
+                                 (list
+                                  "."
+                                  "-name"
+                                  repo-name)
+                                 :output s-stream
+                                 :directory start-dir
+                                 )
+             (read-line
+              (make-string-input-stream
+               (get-output-stream-string s-stream))
+              nil ""))))
+    (when (< 0 (length directory))
+    (sb-ext:run-program "/usr/bin/git" command
+                        :directory (concatenate 'string start-dir directory)
+                        :output s-stream)
+    (get-output-stream-string s-stream))))
